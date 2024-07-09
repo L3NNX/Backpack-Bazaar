@@ -3,7 +3,8 @@ const app = express()
 app.set('view engine', 'ejs');
 const cookieParser = require('cookie-parser')
 const path = require('path')
-
+const flash = require("connect-flash")
+const expressSession =  require('express-session') 
 
 require('dotenv').config()
 

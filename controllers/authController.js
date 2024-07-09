@@ -24,10 +24,11 @@ module.exports.registerUser = async function (req, res) {
                         password,
                         fullname,
                     });
-                    
 
                     let token = generateToken(user);
                     res.cookie("token", token);
+
+                    res.redirect("/shop");
                     // res.send("user created ");
                 }
             });
@@ -47,7 +48,15 @@ module.exports.loginUser = async function (req, res){
         return res.send("User not found");
 
         bcrypt.compare(password,user.password,  function (err, result) {
-            res.send(result);
+            if(result){
+
+                let token = generateToken(user);  
+                res.cookie("token", token);
+                res.send("User connected");
+            }
+            else {
+                res.send("User not found");
+            }
         });
     
 }
