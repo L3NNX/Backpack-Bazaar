@@ -1,6 +1,5 @@
 const express = require('express')
 const app = express()
-app.set('view engine', 'ejs');
 const cookieParser = require('cookie-parser')
 const path = require('path')
 const flash = require("connect-flash")
@@ -15,10 +14,19 @@ const productsRouter = require("./routes/productsRouters");
 const userRouter = require("./routes/userRouters");
 const indexRouter = require("./routes/index");
 
+app.set('view engine', 'ejs');
 app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({ extended : true }))
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(
+    expressSession({
+        secret: process.env.EXPRESS_SESSION_SECRET,
+        resave: false,
+        saveUninitialized: false
+    })
+);
+app.use(flash())
 
 app.use("/", indexRouter);
 app.use("/user",userRouter);
