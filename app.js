@@ -5,6 +5,8 @@ const path = require('path')
 const flash = require("connect-flash")
 const expressSession =  require('express-session') 
 
+
+
 require('dotenv').config()
 
 const db=require("./config/mongoose_connection");
@@ -21,7 +23,7 @@ app.use(express.urlencoded({ extended : true }))
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(
     expressSession({
-        secret: process.env.EXPRESS_SESSION_SECRET,
+        secret: process.env.JWT_KEY,
         resave: false,
         saveUninitialized: false
     })
