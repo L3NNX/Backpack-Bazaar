@@ -20,8 +20,9 @@
     // }
     
 
-    router.use('/',(req,res)=>{
-        res.send("Welcome");
+    router.use('/admin',(req,res)=>{
+       let success= req.flash("success")
+        res.render("createProduct", { success });
     }); 
 
     module.exports = router;
