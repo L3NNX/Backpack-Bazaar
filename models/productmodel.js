@@ -4,8 +4,8 @@ const productSchema=mongoose.Schema({
     image: Buffer,
     name: String,
     discount:{
-        typeof: Number,
-        default: []
+        type: Number,
+        default: 0,
     },
 
     price:Number,
