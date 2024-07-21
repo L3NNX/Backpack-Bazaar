@@ -6,7 +6,7 @@ const userModel = require("../models/usermodel");
 module.exports.registerUser = async function (req, res) {
     try {
         let { email, password, fullname } = req.body;
-        console.log("Request body:", { email, password, fullname });
+        // console.log("Request body:", { email, password, fullname });
 
         let user = await userModel.findOne({ email: email });
         if (user) {
@@ -58,6 +58,7 @@ module.exports.loginUser = async function (req, res){
             
             else {
                 res.send("User not found");
+                res.redirect("/");
             }
         });
     
