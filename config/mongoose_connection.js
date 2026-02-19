@@ -1,11 +1,36 @@
-const mongoose = require('mongoose');
 
-mongoose.connect(process.env.MONGO_URL )
-    .then(function () {
-        console.log("Connected to database");
-    })
-    .catch(function (err) {
-        console.error("DB connection error:", err);
+const mongoose = require("mongoose");
+
+let cached = global.mongoose;
+
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
+
+async function connectDB() {
+  if (cached.conn) return cached.conn;
+
+  if (!cached.promise) {
+    
+    if (!process.env.MONGO_URL) {
+      throw new Error("MONGO_URL is not defined!");
+    }
+
+    cached.promise = mongoose.connect(process.env.MONGO_URL, {
+      bufferCommands: false,
     });
+  }
 
-module.exports = mongoose.connection;
+  try {
+    cached.conn = await cached.promise;
+    console.log("MongoDB connected successfully");
+  } catch (e) {
+    cached.promise = null;
+    console.error("MongoDB connection error:", e.message);
+    throw e;
+  }
+
+  return cached.conn;
+}
+
+module.exports = connectDB;

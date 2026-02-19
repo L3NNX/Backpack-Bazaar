@@ -6,10 +6,8 @@ const flash = require("connect-flash")
 const expressSession =  require('express-session') 
 
 
-
 require('dotenv').config({ path: path.join(__dirname, '.env') })
-
-const db=require("./config/mongoose_connection");
+const connectDB =require ("./config/mongoose_connection");
 
 const ownersRouter = require("./routes/ownersRouters")
 const productsRouter = require("./routes/productsRouters");
@@ -31,16 +29,31 @@ app.use(
 );
 app.use(flash())
 
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    console.error("DB error:", err.message);
+    res.status(500).send("Database connection failed");
+  }
+});
+
 app.use("/", indexRouter);
 app.use("/user",userRouter);
 app.use("/owners", ownersRouter);
 app.use("/products",productsRouter);
 
-// app.get('/', (req, res) => {
-//     res.send('<h1>Welcome to the homepage!</h1>')
-//   })
 
 const PORT = process.env.PORT
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+connectDB()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("Failed to connect to DB:", err.message);
+  });
+
+  module.exports = app;
