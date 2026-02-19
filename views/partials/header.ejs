@@ -4,29 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Jhola</title>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        @font-face {
-            font-family: 'Helvetica Now Display';
-            src: url('https://fonts.googleapis.com/css2?family=Helvetica+Now+Display:wght@400;500;600;700&display=swap');
-        }
+        body { font-family: 'Inter', sans-serif; }
     </style>
 </head>
 
-<body class="font-Helvetica_Now_Display">
-    <nav class="w-full flex justify-between px-5 py-3">
-        <h3 class="text-xl">Jhola</h3>
-        <% var loggedin=typeof loggedin !== "undefined" ? loggedin: true %>
+<body class="bg-white text-zinc-800">
+    <nav class="w-full flex justify-between items-center px-8 py-4 border-b border-zinc-100 sticky top-0 bg-white z-50">
+        <h3 class="text-2xl font-bold tracking-tight text-zinc-900">Jhola</h3>
+        <% var loggedin = typeof loggedin !== "undefined" ? loggedin : true %>
         <% if(loggedin){ %>
-        <div class="flex gap-5">
-        <a href="/shop">Shop</a>
-        <a href="/cart">Cart</a>
-        <a href="">My Account</a>
-        <a href="/user/logout" class="text-red-600">Logout</a>
+        <div class="flex gap-6 text-sm font-medium items-center">
+            <a href="/shop" class="text-zinc-600 hover:text-zinc-900 transition-colors">Shop</a>
+            <a href="/cart" class="text-zinc-600 hover:text-zinc-900 transition-colors flex items-center gap-1"><i class="ri-shopping-cart-line"></i> Cart</a>
+            <a href="/user/logout" class="px-4 py-1.5 bg-red-50 text-red-600 rounded-full hover:bg-red-100 transition-colors text-xs font-semibold">Logout</a>
         </div>
-
         <% } %>
     </nav>
 </body>

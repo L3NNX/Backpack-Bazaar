@@ -20,7 +20,6 @@ router.get("/addtoCart/:productid", isLoggedin,async function(req,res){
     let user = await userModel.findOne({email : req.user.email});
     user.cart.push(req.params.productid);
     await user.save();
-    console.log(user)
     req.flash("success", "Product added to cart");
     res.redirect("/shop");
 })
@@ -33,7 +32,7 @@ router.get("/cart", isLoggedin, async (req, res)=> {
     let products = await productModel.find({});
    res.render('cart',{products,user})
    
-});
+  });
 
 router.get("/logout", isLoggedin,function(req,res,next){
     res.render('shop');

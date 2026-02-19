@@ -16,7 +16,6 @@ router.post("/create",upload.single("image"),async function (req,res){
             textcolor,
             panelcolor,
         })
-        console.log(product)
         req.flash("success","product created successfully")
         res.redirect("/owners/admin")
         

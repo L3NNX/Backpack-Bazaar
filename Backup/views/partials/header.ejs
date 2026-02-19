@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @font-face {
+            font-family: 'Helvetica Now Display';
+            src: url('https://fonts.googleapis.com/css2?family=Helvetica+Now+Display:wght@400;500;600;700&display=swap');
+        }
+    </style>
+</head>
+
+<body class="font-Helvetica_Now_Display">
+    <nav class="w-full flex justify-between px-5 py-3">
+        <h3 class="text-xl">Jhola</h3>
+        <% var loggedin=typeof loggedin !== "undefined" ? loggedin: true %>
+        <% if(loggedin){ %>
+        <div class="flex gap-5">
+        <a href="/shop">Shop</a>
+        <a href="/cart">Cart</a>
+        <a href="">My Account</a>
+        <a href="/user/logout" class="text-red-600">Logout</a>
+        </div>
+
+        <% } %>
+    </nav>
+</body>
+
+</html>

@@ -5,7 +5,8 @@ const path = require('path')
 const flash = require("connect-flash")
 const expressSession =  require('express-session') 
 
-
+// const methodOverride = require('method-override');
+// app.use(methodOverride('_method'));
 
 require('dotenv').config()
 
