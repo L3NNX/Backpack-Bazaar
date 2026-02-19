@@ -26,4 +26,17 @@ router.post("/create",upload.single("image"),async function (req,res){
 
 }); 
 
+
+// Delete product from shop (admin only)
+router.delete('/delete/:productid', async (req, res) => {
+    try {
+        await productModel.findByIdAndDelete(req.params.productid);
+        req.flash("success", "Product deleted successfully!");
+        res.json({ success: true });
+    } catch (err) {
+        res.json({ success: false, error: "Could not delete product" });
+    }
+});
+
+
 module.exports = router;
