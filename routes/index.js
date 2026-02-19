@@ -9,35 +9,48 @@ router.get('/',(req,res)=>{
     res.render('index', {error});
 }); 
 
-router.get("/shop", isLoggedin,async function(req,res,next){
-    let success= req.flash("success")
-    let products = await productModel.find({});
-    // console.log(products)
-    res.render('shop', { products, success });
+router.get("/shop", isLoggedin, async function (req, res, next) {
+    try {
+        let success = req.flash("success");
+        let products = await productModel.find({});
+        res.render('shop', { products, success });
+    } catch (err) {
+        next(err);
+    }
 });
 
-router.get("/addtoCart/:productid", isLoggedin,async function(req,res){
-    let user = await userModel.findOne({email : req.user.email});
-    user.cart.push(req.params.productid);
-    await user.save();
-    console.log(user)
-    req.flash("success", "Product added to cart");
-    res.redirect("/shop");
-})
-
-router.get("/cart", isLoggedin, async (req, res)=> {
-    let user=await userModel
-    .findOne({email:req.user.email})
-    .populate("cart");
-    
-    let products = await productModel.find({});
-   res.render('cart',{products,user})
-   
+router.get("/addtocart/:productid", isLoggedin, async function (req, res) {
+    try {
+        let user = await userModel.findOne({ email: req.user.email });
+        user.cart.push(req.params.productid);
+        await user.save();
+        req.flash("success", "Product added to cart!");
+        res.redirect("/shop");
+    } catch (err) {
+        req.flash("error", "Could not add product to cart.");
+        res.redirect("/shop");
+    }
 });
 
-router.get("/logout", isLoggedin,function(req,res,next){
-    res.render('shop');
+router.get('/cart', isLoggedin, async (req, res, next) => {
+    try {
+        let user = await userModel.findOne({ email: req.user.email }).populate("cart");
+        let bill = user.cart.reduce((total, product) => {
+            let price = product.price || 0;
+            let discount = product.discount || 0;
+            return total + price - (price * discount / 100);
+        }, 0);
+        res.render('cart', { products: user.cart, bill: Math.round(bill) });
+    } catch (err) {
+        next(err);
+    }
 });
+
+router.get("/logout", isLoggedin, function (req, res) {
+    res.cookie("token", "");
+    res.redirect("/");
+});
+
 
 module.exports = router;
 

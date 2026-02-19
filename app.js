@@ -5,10 +5,9 @@ const path = require('path')
 const flash = require("connect-flash")
 const expressSession =  require('express-session') 
 
-// const methodOverride = require('method-override');
-// app.use(methodOverride('_method'));
 
-require('dotenv').config()
+
+require('dotenv').config({ path: path.join(__dirname, '.env') })
 
 const db=require("./config/mongoose_connection");
 
@@ -18,6 +17,7 @@ const userRouter = require("./routes/userRouters");
 const indexRouter = require("./routes/index");
 
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({ extended : true }))
@@ -40,4 +40,7 @@ app.use("/products",productsRouter);
 //     res.send('<h1>Welcome to the homepage!</h1>')
 //   })
 
-app.listen(3000)
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});

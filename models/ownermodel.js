@@ -2,8 +2,8 @@ const mongoose = require('mongoose')
 
 const ownerSchema=mongoose.Schema({
     fullname:{
-        typeof: String,
-        minlength:3 ,
+        type: String,
+        minLength:3 ,
         trim:true,
     },
     email: String,
