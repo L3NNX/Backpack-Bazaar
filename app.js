@@ -28,7 +28,11 @@ app.use(
     })
 );
 app.use(flash())
-
+app.use((req, res, next) => {
+  res.locals.error = req.flash("error");
+  res.locals.success = req.flash("success");
+  next();
+});
 app.use(async (req, res, next) => {
   try {
     await connectDB();

@@ -5,9 +5,17 @@ const productModel = require("../models/productmodel")
 const userModel = require("../models/usermodel")
 
 router.get('/',(req,res)=>{
-    let error = req.flash('error');
-    res.render('index', {error});
+    // let error = req.flash('error');
+    // res.render('index', {error});
+      res.render('index');
 }); 
+
+router.get('/auth', (req, res) => {
+    // let error = req.flash('error');
+    // res.render('auth', { error });
+        res.render('auth');
+});
+
 
 router.get("/shop", isLoggedin, async function (req, res, next) {
     try {

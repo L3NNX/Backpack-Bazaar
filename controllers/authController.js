@@ -33,8 +33,8 @@ module.exports.loginUser = async function (req, res) {
 
         let user = await userModel.findOne({ email });
         if (!user) {
-            req.flash("error", "Invalid email or password.");
-            return res.redirect("/");
+            req.flash("error", "Account not found. Please signup first.");
+            return res.redirect("/auth#signup");
         }
 
         const result = await bcrypt.compare(password, user.password);
