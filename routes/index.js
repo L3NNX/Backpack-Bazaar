@@ -3,17 +3,84 @@ const isLoggedin = require("../middleware/isLoggedIn");
 const router= express.Router();
 const productModel = require("../models/productmodel")
 const userModel = require("../models/usermodel")
+const bcrypt = require("bcryptjs");
+const { generateToken } = require("../utils/generateToken");
 
-router.get('/',(req,res)=>{
-    // let error = req.flash('error');
-    // res.render('index', {error});
-      res.render('index');
-}); 
+router.get('/', async (req, res) => {
+    try {
+        let adminExists = await userModel.findOne({ role: "admin" });
+        res.render('index', { needsSetup: !adminExists });
+    } catch (err) {
+        res.render('index', { needsSetup: false });
+    }
+})
 
 router.get('/auth', (req, res) => {
     // let error = req.flash('error');
     // res.render('auth', { error });
         res.render('auth');
+});
+
+// Show setup page
+router.get('/setup', async (req, res) => {
+    try {
+        let adminExists = await userModel.findOne({ role: "admin" });
+        if (adminExists) {
+            return res.render('setup', { alreadySetup: true });
+        }
+        res.render('setup', { alreadySetup: false });
+    } catch (err) {
+        res.status(500).send("Server error");
+    }
+});
+
+// Create first admin
+router.post('/setup', async (req, res) => {
+    try {
+        // Block if admin already exists
+        let adminExists = await userModel.findOne({ role: "admin" });
+        if (adminExists) {
+            return res.render('setup', { alreadySetup: true });
+        }
+
+        let { secretKey, fullname, email, password } = req.body;
+
+        // Verify secret key from .env
+        if (secretKey !== process.env.SETUP_SECRET) {
+            req.flash("error", "Invalid secret key.");
+            return res.redirect("/setup");
+        }
+
+        // Check duplicate email
+        let existingUser = await userModel.findOne({ email });
+        if (existingUser) {
+            req.flash("error", "This email is already registered.");
+            return res.redirect("/setup");
+        }
+
+        // Create admin account
+        const salt = await bcrypt.genSalt(10);
+        const hash = await bcrypt.hash(password, salt);
+
+        let admin = await userModel.create({
+            fullname,
+            email,
+            password: hash,
+            role: "admin"           // ← This makes them admin
+        });
+
+        // Auto login
+        let token = generateToken(admin);
+        res.cookie("token", token);
+
+        req.flash("success", "Admin account created! Welcome to Jhola.");
+        res.redirect("/owners/admin");
+
+    } catch (err) {
+        console.error(err.message);
+        req.flash("error", "Something went wrong. Try again.");
+        res.redirect("/setup");
+    }
 });
 
 

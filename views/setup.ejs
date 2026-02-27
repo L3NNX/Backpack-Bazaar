@@ -1,0 +1,80 @@
+<!-- views/setup.ejs -->
+<%- include('./partials/header-landing') %>
+
+<div class="min-h-screen bg-gradient-to-br from-zinc-50 via-white to-blue-50 flex items-center justify-center px-4">
+    <div class="w-full max-w-md">
+
+        <% if(locals.alreadySetup) { %>
+        <!-- LOCKED STATE -->
+        <div class="bg-white rounded-2xl shadow-lg border border-zinc-100 p-10 text-center">
+            <div class="w-16 h-16 mx-auto mb-4 bg-green-100 rounded-full flex items-center justify-center">
+                <i class="ri-check-line text-3xl text-green-600"></i>
+            </div>
+            <h2 class="text-xl font-bold text-zinc-900 mb-2">Setup Complete</h2>
+            <p class="text-sm text-zinc-500 mb-6">Admin account already exists. This page is locked.</p>
+            <a href="/auth" class="inline-block px-6 py-3 bg-zinc-900 text-white text-sm font-semibold rounded-xl hover:bg-zinc-700 transition">
+                Go to Login
+            </a>
+        </div>
+
+        <% } else { %>
+        <!-- SETUP FORM -->
+        <div class="bg-white rounded-2xl shadow-lg border border-zinc-100 overflow-hidden">
+            
+            <div class="px-8 py-6 bg-gradient-to-r from-zinc-900 to-zinc-800 text-white text-center">
+                <div class="w-14 h-14 mx-auto mb-3 bg-white/10 rounded-2xl flex items-center justify-center">
+                    <i class="ri-shield-keyhole-line text-2xl"></i>
+                </div>
+                <h1 class="text-xl font-bold">Initial Setup</h1>
+                <p class="text-zinc-400 text-xs mt-1">Create your admin account to get started</p>
+            </div>
+
+            <% if(locals.error && error.length > 0) { %>
+            <div class="mx-8 mt-6 px-4 py-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm">
+                <i class="ri-error-warning-line mr-1"></i> <%= error %>
+            </div>
+            <% } %>
+
+            <form action="/setup" method="POST" class="p-8 space-y-5">
+                <div>
+                    <label class="block text-sm font-medium text-zinc-700 mb-1">
+                        <i class="ri-key-2-line mr-1"></i> Setup Secret Key
+                    </label>
+                    <input type="password" name="secretKey" required placeholder="From your .env file"
+                        class="w-full border border-zinc-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <p class="text-xs text-zinc-400 mt-1">SETUP_SECRET from your environment variables</p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-zinc-700 mb-1">Full Name</label>
+                    <input type="text" name="fullname" required placeholder="Admin Name"
+                        class="w-full border border-zinc-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-zinc-700 mb-1">Email</label>
+                    <input type="email" name="email" required placeholder="admin@store.com"
+                        class="w-full border border-zinc-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-zinc-700 mb-1">Password</label>
+                    <input type="password" name="password" required placeholder="Strong password"
+                        class="w-full border border-zinc-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <button type="submit" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition text-sm flex items-center justify-center gap-2">
+                    <i class="ri-shield-check-line"></i>
+                    Create Admin Account
+                </button>
+            </form>
+        </div>
+
+        <p class="text-center text-xs text-zinc-400 mt-4">
+            This page locks after the first admin is created.
+        </p>
+        <% } %>
+    </div>
+</div>
+
+<%- include('./partials/footer') %>

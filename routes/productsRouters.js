@@ -2,8 +2,9 @@ const express=require('express');
 const router= express.Router();
 const upload= require("../config/multerConfig")
 const productModel = require("../models/productmodel")
+const isAdmin = require("../middleware/isAdmin"); 
 
-router.post("/create",upload.single("image"),async function (req,res){
+router.post("/create",isAdmin,upload.single("image"),async function (req,res){
     try {
         let {name,price,discount,bgcolor,textcolor,panelcolor} = req.body;
         
@@ -16,7 +17,7 @@ router.post("/create",upload.single("image"),async function (req,res){
             textcolor,
             panelcolor,
         })
-        console.log(product)
+        // console.log(product)
         req.flash("success","product created successfully")
         res.redirect("/owners/admin")
         

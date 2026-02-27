@@ -4,11 +4,11 @@ const cookieParser = require('cookie-parser')
 const path = require('path')
 const flash = require("connect-flash")
 const expressSession =  require('express-session') 
-
+const jwt = require('jsonwebtoken'); 
 
 require('dotenv').config({ path: path.join(__dirname, '.env') })
 const connectDB =require ("./config/mongoose_connection");
-
+const userModel = require('./models/usermodel');
 const ownersRouter = require("./routes/ownersRouters")
 const productsRouter = require("./routes/productsRouters");
 const userRouter = require("./routes/userRouters");
@@ -33,6 +33,25 @@ app.use((req, res, next) => {
   res.locals.success = req.flash("success");
   next();
 });
+
+app.use(async (req, res, next) => {
+    try {
+        let token = req.cookies.token;
+        if (token) {
+            let decoded = jwt.verify(token, process.env.JWT_KEY);
+            let user = await userModel
+                .findOne({ email: decoded.email })
+                .select("-password");
+            res.locals.loggedInUser = user;
+        } else {
+            res.locals.loggedInUser = null;
+        }
+    } catch (err) {
+        res.locals.loggedInUser = null;
+    }
+    next();
+});
+
 app.use(async (req, res, next) => {
   try {
     await connectDB();

@@ -1,3 +1,4 @@
+<!-- views/partials/header.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,20 +20,69 @@
 </head>
 <body class="bg-white text-zinc-800">
     <nav class="w-full flex justify-between items-center px-8 py-4 border-b border-zinc-100 sticky top-0 bg-white/80 backdrop-blur-lg z-50">
+        
+        <!-- Logo -->
         <a href="/" class="text-2xl font-bold tracking-tight text-zinc-900">Jhola</a>
         
+        <!-- Middle Links -->
         <div class="hidden md:flex items-center gap-8 text-sm font-medium">
             <a href="/" class="text-zinc-600 hover:text-zinc-900 transition-colors">Home</a>
             <a href="/shop" class="text-zinc-600 hover:text-zinc-900 transition-colors">Shop</a>
-            <a href="#" class="text-zinc-600 hover:text-zinc-900 transition-colors">Collections</a>
-            <a href="#" class="text-zinc-600 hover:text-zinc-900 transition-colors">About</a>
+
+            <% if(locals.loggedInUser) { %>
+                <a href="/cart" class="text-zinc-600 hover:text-zinc-900 transition-colors flex items-center gap-1">
+                    <i class="ri-shopping-cart-2-line"></i> Cart
+                </a>
+            <% } %>
+
+            <% if(locals.loggedInUser && loggedInUser.role === 'admin') { %>
+                <a href="/owners/admin" class="text-blue-600 hover:text-blue-700 font-semibold transition-colors flex items-center gap-1">
+                    <i class="ri-dashboard-line"></i> Admin
+                </a>
+                <a href="/owners/users" class="text-blue-600 hover:text-blue-700 font-semibold transition-colors flex items-center gap-1">
+                    <i class="ri-group-line"></i> Users
+                </a>
+            <% } %>
         </div>
         
+        <!-- Right Side -->
         <div class="flex gap-3 items-center">
-            <a href="/auth" class="text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors">Login</a>
-            <a href="/auth" class="px-5 py-2.5 bg-zinc-900 hover:bg-zinc-700 text-white rounded-full transition text-sm font-medium">
-                Sign Up
-            </a>
+
+            <% if(locals.loggedInUser) { %>
+                <!-- LOGGED IN -->
+                <div class="flex items-center gap-3">
+                    <!-- Avatar -->
+                    <div class="w-9 h-9 rounded-full flex items-center justify-center
+                        <% if(loggedInUser.role === 'admin') { %> bg-blue-100 <% } else { %> bg-zinc-100 <% } %>">
+                        <span class="text-sm font-bold 
+                            <% if(loggedInUser.role === 'admin') { %> text-blue-600 <% } else { %> text-zinc-600 <% } %>">
+                            <%= loggedInUser.fullname.charAt(0).toUpperCase() %>
+                        </span>
+                    </div>
+                    
+                    <!-- Name + Role -->
+                    <div class="hidden sm:flex flex-col">
+                        <span class="text-sm font-medium text-zinc-800"><%= loggedInUser.fullname %></span>
+                        <% if(loggedInUser.role === 'admin') { %>
+                            <span class="text-[10px] text-blue-600 font-bold leading-tight">ADMIN</span>
+                        <% } %>
+                    </div>
+
+                    <!-- Logout -->
+                    <a href="/logout" 
+                       class="ml-2 px-4 py-2 border border-zinc-200 hover:border-red-300 hover:bg-red-50 text-zinc-500 hover:text-red-500 rounded-full transition text-sm font-medium flex items-center gap-1">
+                        <i class="ri-logout-box-r-line"></i>
+                        <span class="hidden sm:inline">Logout</span>
+                    </a>
+                </div>
+
+            <% } else { %>
+                <!-- NOT LOGGED IN -->
+                <a href="/auth" class="text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors">Login</a>
+                <a href="/auth" class="px-5 py-2.5 bg-zinc-900 hover:bg-zinc-700 text-white rounded-full transition text-sm font-medium">
+                    Sign Up
+                </a>
+            <% } %>
         </div>
     </nav>
 </body>

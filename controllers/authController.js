@@ -41,7 +41,11 @@ module.exports.loginUser = async function (req, res) {
         if (result) {
             let token = generateToken(user);
             res.cookie("token", token);
-            res.redirect("/shop");
+             if (user.role === "admin") {
+                res.redirect("/owners/admin");   // Admin → Admin Panel
+            } else {
+                res.redirect("/shop");           // User → Shop
+            }
         } else {
             req.flash("error", "Invalid email or password.");
             res.redirect("/");
