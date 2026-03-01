@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const isAdmin = require("../middleware/isAdmin");
 const userModel = require("../models/usermodel");
-
+const productModel = require("../models/productmodel");
 // Admin Dashboard — Create Product Page
 router.get('/admin', isAdmin, (req, res) => {
     let success = req.flash("success");
@@ -46,6 +46,17 @@ router.post('/demote/:userid', isAdmin, async (req, res) => {
     } catch (err) {
         req.flash("error", "Could not demote user.");
         res.redirect("/owners/users");
+    }
+});
+
+// Admin Product Listing Page
+router.get('/products', isAdmin, async (req, res) => {
+    try {
+        let products = await productModel.find();
+        let success = req.flash("success");
+        res.render("adminProducts", { products, success });
+    } catch (err) {
+        res.status(500).send("Error loading products");
     }
 });
 
