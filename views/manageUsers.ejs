@@ -1,4 +1,4 @@
-<%- include('./partials/header') %>
+<%- include('./partials/header-landing') %>
 
 <% if(success && success.length > 0){ %>
 <div class="fixed top-16 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-lg bg-green-500 text-white shadow-lg text-sm font-medium">
@@ -13,12 +13,13 @@
             <a class="hover:text-zinc-900 transition" href="/owners/admin">
                 <i class="ri-add-circle-line mr-1"></i> Create Product
             </a>
+            <a class="hover:text-zinc-900 transition" href="/owners/products">
+                <i class="ri-box-3-line mr-1"></i> All Products
+            </a>
             <a class="hover:text-zinc-900 transition font-medium text-blue-600" href="/owners/users">
                 <i class="ri-group-line mr-1"></i> Manage Users
             </a>
-            <a class="hover:text-zinc-900 transition" href="/shop">
-                <i class="ri-store-2-line mr-1"></i> View Shop
-            </a>
+           
         </nav>
     </aside>
 
