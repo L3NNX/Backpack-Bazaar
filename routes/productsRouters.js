@@ -27,6 +27,45 @@ router.post("/create",isAdmin,upload.single("image"),async function (req,res){
 
 }); 
 
+// Get Edit Product Page
+router.get("/edit/:productid", isAdmin, async (req, res) => {
+    try {
+        const product = await productModel.findById(req.params.productid);
+        if (!product) return res.status(404).send("Product not found");
+        res.render("createProduct", { product, success: null });
+    } catch (err) {
+        res.status(500).send("Error loading product");
+    }
+});
+
+// Update Product
+router.post("/edit/:productid", isAdmin, upload.single("image"), async (req, res) => {
+    try {
+        let { name, price, discount, bgcolor, panelcolor, textcolor } = req.body;
+
+        let updateData = {
+            name,
+            price,
+            discount,
+            bgcolor,
+            panelcolor,
+            textcolor
+        };
+
+        // If new image uploaded
+        if (req.file) {
+            updateData.image = req.file.buffer;
+        }
+
+        await productModel.findByIdAndUpdate(req.params.productid, updateData);
+
+        req.flash("success", "Product updated successfully!");
+        res.redirect("/owners/products");
+
+    } catch (err) {
+        res.status(500).send("Error updating product");
+    }
+});
 
 // Delete product from shop (admin only)
 router.delete('/delete/:productid', async (req, res) => {

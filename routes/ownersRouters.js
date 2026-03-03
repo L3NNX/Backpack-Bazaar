@@ -7,7 +7,7 @@ const productModel = require("../models/productmodel");
 // Admin Dashboard — Create Product Page
 router.get('/admin', isAdmin, (req, res) => {
     let success = req.flash("success");
-    res.render("createProduct", { success });
+    res.render("createProduct", { success, product: null });
 });
 
 // Manage Users Page
