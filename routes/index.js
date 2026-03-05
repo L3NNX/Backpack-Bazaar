@@ -87,8 +87,40 @@ router.post('/setup', async (req, res) => {
 router.get("/shop", isLoggedin, async function (req, res, next) {
     try {
         let success = req.flash("success");
-        let products = await productModel.find({});
-        res.render('shop', { products, success });
+        let { search, sortby, category } = req.query;
+
+        let filter = {};
+
+        if (search && search.trim() !== '') {
+            filter.name = { $regex: search.trim(), $options: 'i' };
+        }
+
+        if (category && category !== 'all') {
+            if (category === 'discounted') {
+                filter.discount = { $gt: 0 };
+            } else {
+                filter.category = category;
+            }
+        }
+
+  
+        let sort = { createdAt: -1 }; 
+        switch (sortby) {
+            case 'newest':     sort = { createdAt: -1 };  break;
+            case 'price_asc':  sort = { price: 1 };       break;
+            case 'price_desc': sort = { price: -1 };      break;
+            case 'popular':    sort = { createdAt: -1 };   break;
+        }
+
+        let products = await productModel.find(filter).sort(sort);
+
+        res.render('shop', {
+            products,
+            success,
+            search: search || '',
+            sortby: sortby || 'popular',
+            category: category || 'all'
+        });
     } catch (err) {
         next(err);
     }

@@ -12,6 +12,11 @@ const productSchema=mongoose.Schema({
     bgcolor:String,
     panelcolor:String,
     textcolor:String,
+    category: {
+        type: String,
+        enum: ['backpack', 'tote', 'handbag', 'clutch', 'duffle', 'other'],
+        default: 'other'
+    },
 })
 
 module.exports = mongoose.model('product', productSchema)

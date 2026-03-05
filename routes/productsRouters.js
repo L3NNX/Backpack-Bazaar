@@ -16,6 +16,7 @@ router.post("/create",isAdmin,upload.single("image"),async function (req,res){
             bgcolor,
             textcolor,
             panelcolor,
+            category
         })
         // console.log(product)
         req.flash("success","product created successfully")
@@ -49,7 +50,8 @@ router.post("/edit/:productid", isAdmin, upload.single("image"), async (req, res
             discount,
             bgcolor,
             panelcolor,
-            textcolor
+            textcolor,
+            category
         };
 
         // If new image uploaded
