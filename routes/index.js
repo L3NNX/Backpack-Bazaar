@@ -94,6 +94,27 @@ router.get("/shop", isLoggedin, async function (req, res, next) {
     }
 });
 
+// Add to index.js
+router.get("/product/:id", isLoggedin, async function (req, res) {
+    try {
+        let product = await productModel.findById(req.params.id);
+        if (!product) {
+            req.flash("error", "Product not found");
+            return res.redirect("/shop");
+        }
+        
+        // Get related products (same category, exclude current)
+        let related = await productModel.find({ 
+            category: product.category, 
+            _id: { $ne: product._id } 
+        }).limit(4);
+        
+        res.render('productDetail', { product, related });
+    } catch (err) {
+        res.redirect("/shop");
+    }
+});
+
 router.get("/addtocart/:productid", isLoggedin, async function (req, res) {
     try {
         let user = await userModel.findOne({ email: req.user.email });
