@@ -230,6 +230,57 @@ router.get("/logout", isLoggedin, function (req, res) {
     res.redirect("/");
 });
 
+// Profile Page
+router.get('/profile', isLoggedin, async (req, res) => {
+    try {
+        let user = await userModel.findOne({ email: req.user.email }).select('-password');
+        let success = req.flash("success");
+        let error = req.flash("error");
+        res.render('profile', { user, success, error });
+    } catch (err) {
+        res.redirect('/shop');
+    }
+});
+
+// Update Profile
+router.post('/profile/update', isLoggedin, async (req, res) => {
+    try {
+        let { fullname, email } = req.body;
+        await userModel.findOneAndUpdate(
+            { email: req.user.email },
+            { fullname, email }
+        );
+        req.flash("success", "Profile updated!");
+        res.redirect("/profile");
+    } catch (err) {
+        req.flash("error", "Could not update profile.");
+        res.redirect("/profile");
+    }
+});
+
+// Change Password
+router.post('/profile/password', isLoggedin, async (req, res) => {
+    try {
+        let user = await userModel.findOne({ email: req.user.email });
+        let { currentPassword, newPassword } = req.body;
+
+        let isMatch = await bcrypt.compare(currentPassword, user.password);
+        if (!isMatch) {
+            req.flash("error", "Current password is incorrect.");
+            return res.redirect("/profile");
+        }
+
+        let salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(newPassword, salt);
+        await user.save();
+
+        req.flash("success", "Password changed!");
+        res.redirect("/profile");
+    } catch (err) {
+        req.flash("error", "Could not change password.");
+        res.redirect("/profile");
+    }
+});
 
 module.exports = router;
 
