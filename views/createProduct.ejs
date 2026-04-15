@@ -1,121 +1,252 @@
 <%- include('./partials/header') %>
 
-    <% if(success && success.length> 0){ %>
-        <div
-            class="fixed top-16 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-lg bg-green-500 text-white shadow-lg text-sm font-medium">
-            <%= success %>
-        </div>
+<div class="flex min-h-screen">
+
+  <%# ── ADMIN SIDEBAR ── %>
+  <aside class="w-52 flex-shrink-0 border-r border-noir-border pt-10 px-6 bg-noir">
+    <h4 class="text-[9px] font-semibold text-dim-400 tracking-[0.2em] uppercase mb-6">Admin</h4>
+    <nav class="flex flex-col gap-1">
+      <a href="/owners/admin"
+        class="flex items-center gap-2.5 text-xs py-2.5 px-3 rounded-sm transition-all duration-200 <%= !locals.currentPage || locals.currentPage === 'createProduct' ? 'bg-gold/10 text-gold border border-gold/20' : 'text-dim-400 hover:text-dim-200 hover:bg-noir-card' %>">
+        <i class="ri-add-circle-line text-sm"></i>
+        <% if(product) { %>Edit Product<% } else { %>Create Product<% } %>
+      </a>
+      <a href="/owners/products"
+        class="flex items-center gap-2.5 text-xs py-2.5 px-3 rounded-sm transition-all duration-200 text-dim-400 hover:text-dim-200 hover:bg-noir-card">
+        <i class="ri-box-3-line text-sm"></i> All Products
+      </a>
+      <a href="/owners/users"
+        class="flex items-center gap-2.5 text-xs py-2.5 px-3 rounded-sm transition-all duration-200 text-dim-400 hover:text-dim-200 hover:bg-noir-card">
+        <i class="ri-team-line text-sm"></i> Manage Users
+      </a>
+    </nav>
+
+    <%# Back to shop link %>
+    <div class="mt-auto pt-10 border-t border-noir-border mt-8">
+      <a href="/shop" class="flex items-center gap-2 text-[10px] text-dim-400 hover:text-gold transition-colors duration-200 tracking-wide">
+        <i class="ri-arrow-left-line text-sm"></i> Back to Shop
+      </a>
+    </div>
+  </aside>
+
+  <%# ── MAIN FORM ── %>
+  <main class="flex-1 px-12 py-12 bg-noir">
+
+    <%# Page header %>
+    <div class="mb-10">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="w-5 h-px bg-gold"></div>
+        <span class="text-[9px] tracking-[0.2em] uppercase text-gold">Admin Panel</span>
+      </div>
+      <h1 class="font-display font-bold text-dim-100 text-4xl">
+        <%= product ? 'Edit Product' : 'Create Product' %>
+      </h1>
+      <p class="text-dim-400 text-sm mt-2">
+        <%= product ? 'Update the product details below.' : 'Fill in the details to add a new product to your catalog.' %>
+      </p>
+    </div>
+
+    <form
+      action="<%= product ? '/products/edit/' + product._id : '/products/create' %>"
+      method="post"
+      enctype="multipart/form-data"
+      class="max-w-2xl space-y-8">
+
+      <%# ── SECTION 1: IMAGE ── %>
+      <div class="space-y-4">
+        <h3 class="text-[9px] font-semibold text-dim-400 tracking-[0.2em] uppercase border-b border-noir-border pb-3">Product Image</h3>
+
+        <% if(product && product.image) { %>
+          <div class="flex items-center gap-5">
+            <img src="data:image/jpeg;base64,<%= product.image.toString('base64') %>"
+              class="w-24 h-24 object-cover rounded-md border border-noir-border" />
+            <div>
+              <p class="text-xs text-dim-400 mb-1">Current image</p>
+              <p class="text-[10px] text-dim-400/60">Upload a new image to replace it</p>
+            </div>
+          </div>
         <% } %>
 
-            <div class="flex min-h-screen">
-                <!-- Sidebar -->
-                <aside class="w-60 flex-shrink-0 border-r border-zinc-100 pt-10 px-6">
-                    <h4 class="text-xs font-semibold text-zinc-400 uppercase tracking-widest mb-4">Admin</h4>
-                    <nav class="flex flex-col gap-2 text-sm text-zinc-600">
-                        <a class="hover:text-zinc-900 transition font-medium text-blue-600" href="/owners/admin">Create
-                            Product</a>
-                        <a class="hover:text-zinc-900 transition" href="/owners/products">All Products</a>
-                        <a class="hover:text-zinc-900 transition" href="/owners/users">Manage Users</a>
-                    </nav>
-                </aside>
+        <div>
+          <label class="block text-[10px] font-medium tracking-[0.1em] uppercase text-dim-400 mb-2">
+            <%= product ? 'Replace Image' : 'Upload Image' %>
+          </label>
+          <input type="file" name="image" <%= product ? '' : 'required' %> accept="image/*"
+            class="block w-full text-xs text-dim-400
+              file:mr-4 file:py-2.5 file:px-5
+              file:border file:border-gold/30
+              file:bg-gold/5 file:text-gold
+              file:text-xs file:font-medium file:tracking-wide
+              file:rounded-sm file:cursor-pointer
+              hover:file:bg-gold/10 hover:file:border-gold/50
+              file:transition-all file:duration-200
+              cursor-pointer">
+        </div>
+      </div>
 
-                <!-- Main Form -->
-                <main class="flex-1 px-12 py-10">
-                    <h2 class="text-2xl font-bold text-zinc-900 mb-4">
-                        <%= product ? 'Edit Product' : 'Create New Product' %>
-                    </h2>
-                    <form action="<%= product ? '/products/edit/' + product._id : '/products/create' %>" method="post"
-                        enctype="multipart/form-data" class="max-w-xl space-y-6">
+      <%# ── SECTION 2: DETAILS ── %>
+      <div class="space-y-5">
+        <h3 class="text-[9px] font-semibold text-dim-400 tracking-[0.2em] uppercase border-b border-noir-border pb-3">Product Details</h3>
 
-                        <div class="space-y-4">
-                            <!-- <h3 class="text-sm font-semibold text-zinc-400 uppercase tracking-widest">Product Details</h3> -->
-                            <div>
-                                <label class="block text-sm font-medium text-zinc-700 mb-1">Product Image</label>
-                                <% if(product && product.image) { %>
-                                    <div class="mb-4">
-                                        <img src="data:image/jpeg;base64,<%= product.image.toString('base64') %>"
-                                            class="w-32 h-32 object-cover rounded-lg border border-zinc-200" />
-                                    </div>
-                                    <% } %>
+        <div class="grid grid-cols-2 gap-5">
 
-                                        <input type="file" name="image" <%=product ? '' : 'required' %> accept="image/*"
-                                        class="block w-full text-sm text-zinc-600 file:mr-4 file:py-2 file:px-4
-                                        file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-blue-50
-                                        file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
-                            </div>
-                            <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-zinc-700 mb-1">Product Name</label>
-                                    <input type="text" name="name" placeholder="e.g. Blue Tote Bag" required
-                                        value="<%= product ? product.name : '' %>"
-                                        class="border border-zinc-200 rounded-lg p-2.5 w-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-zinc-700 mb-1">Price (&#8377;)</label>
-                                    <input type="number" name="price" placeholder="e.g. 999" required
-                                        value="<%= product ? product.price : '' %>"
-                                        class="border border-zinc-200 rounded-lg p-2.5 w-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-zinc-700 mb-1">Discount (%)</label>
-                                    <input type="number" name="discount" placeholder="e.g. 10"
-                                        value="<%= product ? product.discount : 0 %>"
-                                        class="border border-zinc-200 rounded-lg p-2.5 w-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-zinc-700 mb-1">Category</label>
-                                    <select name="category" required
-                                        class="border border-zinc-200 rounded-lg p-2.5 w-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                        <option value="other" <%=product && product.category==='other' ? 'selected' : ''
-                                            %>>Other</option>
-                                        <option value="backpack" <%=product && product.category==='backpack'
-                                            ? 'selected' : '' %>>Backpack</option>
-                                        <option value="tote" <%=product && product.category==='tote' ? 'selected' : ''
-                                            %>>Tote Bag</option>
-                                        <option value="handbag" <%=product && product.category==='handbag' ? 'selected'
-                                            : '' %>>Handbag</option>
-                                        <option value="clutch" <%=product && product.category==='clutch' ? 'selected'
-                                            : '' %>>Clutch</option>
-                                        <option value="duffle" <%=product && product.category==='duffle' ? 'selected'
-                                            : '' %>>Duffle Bag</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
+          <div class="col-span-2">
+            <label class="block text-[10px] font-medium tracking-[0.1em] uppercase text-dim-400 mb-2">Product Name</label>
+            <input type="text" name="name" placeholder="e.g. Luxury Leather Tote" required
+              value="<%= product ? product.name : '' %>"
+              class="w-full bg-noir-card border border-noir-border text-dim-200 placeholder-dim-400 text-sm px-4 py-3 rounded-sm focus:outline-none focus:border-gold/50 transition-colors duration-200">
+          </div>
 
-                        <div class="space-y-4 pt-4 border-t border-zinc-100">
-                            <h3 class="text-sm font-semibold text-zinc-400 uppercase tracking-widest">Panel Colors</h3>
-                            <p class="text-xs text-zinc-400">Use any valid CSS color (e.g. <code>#ff6b6b</code>,
-                                <code>white</code>, <code>rgb(200,200,200)</code>)
-                            </p>
-                            <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-zinc-700 mb-1">Background Color</label>
-                                    <input type="text" name="bgcolor" placeholder="#f4f4f5"
-                                        value="<%= product ? product.bgcolor : '' %>"
-                                        class="border border-zinc-200 rounded-lg p-2.5 w-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-zinc-700 mb-1">Panel Color</label>
-                                    <input type="text" name="panelcolor" placeholder="#ffffff"
-                                        value="<%= product ? product.panelcolor : '' %>"
-                                        class="border border-zinc-200 rounded-lg p-2.5 w-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-zinc-700 mb-1">Text Color</label>
-                                    <input type="text" name="textcolor" placeholder="#1a1a1a"
-                                        value="<%= product ? product.textcolor : '' %>"
-                                        class="border border-zinc-200 rounded-lg p-2.5 w-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                </div>
-                            </div>
-                        </div>
-
-                        <button type="submit"
-                            class="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition text-sm">
-                            Create Product
-                        </button>
-                    </form>
-                </main>
+          <div>
+            <label class="block text-[10px] font-medium tracking-[0.1em] uppercase text-dim-400 mb-2">Price (₹)</label>
+            <div class="relative">
+              <span class="absolute left-4 top-1/2 -translate-y-1/2 text-dim-400 text-sm">₹</span>
+              <input type="number" name="price" placeholder="999" required min="0"
+                value="<%= product ? product.price : '' %>"
+                class="w-full bg-noir-card border border-noir-border text-dim-200 placeholder-dim-400 text-sm pl-8 pr-4 py-3 rounded-sm focus:outline-none focus:border-gold/50 transition-colors duration-200">
             </div>
+          </div>
 
-            <%- include('./partials/footer-full') %>
+          <div>
+            <label class="block text-[10px] font-medium tracking-[0.1em] uppercase text-dim-400 mb-2">Discount (%)</label>
+            <div class="relative">
+              <input type="number" name="discount" placeholder="0" min="0" max="100"
+                value="<%= product ? product.discount : 0 %>"
+                class="w-full bg-noir-card border border-noir-border text-dim-200 placeholder-dim-400 text-sm px-4 py-3 rounded-sm focus:outline-none focus:border-gold/50 transition-colors duration-200">
+              <span class="absolute right-4 top-1/2 -translate-y-1/2 text-dim-400 text-sm">%</span>
+            </div>
+          </div>
+
+          <div class="col-span-2">
+            <label class="block text-[10px] font-medium tracking-[0.1em] uppercase text-dim-400 mb-2">Category</label>
+            <select name="category" required
+              class="w-full bg-noir-card border border-noir-border text-dim-200 text-sm px-4 py-3 rounded-sm focus:outline-none focus:border-gold/50 transition-colors duration-200 cursor-pointer">
+              <option value="other"   <%= product && product.category === 'other'   ? 'selected' : '' %>>Other</option>
+              <option value="backpack"<%= product && product.category === 'backpack'? 'selected' : '' %>>Backpack</option>
+              <option value="tote"    <%= product && product.category === 'tote'    ? 'selected' : '' %>>Tote Bag</option>
+              <option value="handbag" <%= product && product.category === 'handbag' ? 'selected' : '' %>>Handbag</option>
+              <option value="clutch"  <%= product && product.category === 'clutch'  ? 'selected' : '' %>>Clutch</option>
+              <option value="duffle"  <%= product && product.category === 'duffle'  ? 'selected' : '' %>>Duffle Bag</option>
+            </select>
+          </div>
+
+        </div>
+      </div>
+
+      <%# ── SECTION 3: PANEL COLORS ── %>
+      <div class="space-y-5">
+        <div class="border-b border-noir-border pb-3">
+          <h3 class="text-[9px] font-semibold text-dim-400 tracking-[0.2em] uppercase">Panel Colors</h3>
+          <p class="text-[10px] text-dim-400/60 mt-1">
+            Controls how the product card looks in the shop. Any valid CSS color works —
+            <code class="text-gold/70 font-mono">#c9a96e</code>,
+            <code class="text-gold/70 font-mono">white</code>,
+            <code class="text-gold/70 font-mono">rgb(20,20,20)</code>
+          </p>
+        </div>
+
+        <div class="grid grid-cols-3 gap-5">
+
+          <div>
+            <label class="block text-[10px] font-medium tracking-[0.1em] uppercase text-dim-400 mb-2">Background</label>
+            <div class="relative flex items-center gap-2">
+              <div id="bgPreview" class="w-8 h-8 rounded-sm border border-noir-border flex-shrink-0"
+                   style="background-color: <%= product && product.bgcolor ? product.bgcolor : '#111111' %>"></div>
+              <input type="text" name="bgcolor" placeholder="#111111"
+                value="<%= product ? product.bgcolor : '' %>"
+                oninput="document.getElementById('bgPreview').style.background=this.value"
+                class="flex-1 bg-noir-card border border-noir-border text-dim-200 placeholder-dim-400 text-xs px-3 py-3 rounded-sm focus:outline-none focus:border-gold/50 transition-colors duration-200 font-mono">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-[10px] font-medium tracking-[0.1em] uppercase text-dim-400 mb-2">Panel</label>
+            <div class="relative flex items-center gap-2">
+              <div id="panelPreview" class="w-8 h-8 rounded-sm border border-noir-border flex-shrink-0"
+                   style="background-color: <%= product && product.panelcolor ? product.panelcolor : '#0d0d0d' %>"></div>
+              <input type="text" name="panelcolor" placeholder="#0d0d0d"
+                value="<%= product ? product.panelcolor : '' %>"
+                oninput="document.getElementById('panelPreview').style.background=this.value"
+                class="flex-1 bg-noir-card border border-noir-border text-dim-200 placeholder-dim-400 text-xs px-3 py-3 rounded-sm focus:outline-none focus:border-gold/50 transition-colors duration-200 font-mono">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-[10px] font-medium tracking-[0.1em] uppercase text-dim-400 mb-2">Text</label>
+            <div class="relative flex items-center gap-2">
+              <div id="textPreview" class="w-8 h-8 rounded-sm border border-noir-border flex-shrink-0"
+                   style="background-color: <%= product && product.textcolor ? product.textcolor : '#cccccc' %>"></div>
+              <input type="text" name="textcolor" placeholder="#cccccc"
+                value="<%= product ? product.textcolor : '' %>"
+                oninput="document.getElementById('textPreview').style.background=this.value"
+                class="flex-1 bg-noir-card border border-noir-border text-dim-200 placeholder-dim-400 text-xs px-3 py-3 rounded-sm focus:outline-none focus:border-gold/50 transition-colors duration-200 font-mono">
+            </div>
+          </div>
+
+        </div>
+
+        <%# Live card preview %>
+        <div class="mt-4">
+          <p class="text-[10px] text-dim-400/60 tracking-wide uppercase mb-3">Card Preview</p>
+          <div id="cardPreview" class="w-48 rounded-md overflow-hidden border border-noir-border">
+            <div id="previewBg" class="h-28 flex items-center justify-center"
+                 style="background-color: <%= product && product.bgcolor ? product.bgcolor : '#111111' %>">
+              <i class="ri-shopping-bag-line text-2xl" style="opacity:.3;color:<%= product && product.textcolor ? product.textcolor : '#cccccc' %>"></i>
+            </div>
+            <div id="previewPanel" class="px-3 py-2.5 flex items-center justify-between"
+                 style="background-color: <%= product && product.panelcolor ? product.panelcolor : '#0d0d0d' %>">
+              <span id="previewText" class="text-xs font-medium" style="color: <%= product && product.textcolor ? product.textcolor : '#cccccc' %>">
+                Product Name
+              </span>
+              <span id="previewPrice" class="text-xs font-bold" style="color: <%= product && product.textcolor ? product.textcolor : '#cccccc' %>">
+                ₹999
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <%# ── SUBMIT ── %>
+      <div class="flex items-center gap-4 pt-4 border-t border-noir-border">
+        <button type="submit"
+          class="inline-flex items-center gap-2 px-8 py-3.5 bg-gold hover:bg-gold-light text-noir text-xs font-bold tracking-[0.12em] uppercase rounded-sm transition-all duration-200 hover:scale-[1.01]">
+          <i class="<%= product ? 'ri-save-line' : 'ri-add-line' %> text-sm"></i>
+          <%= product ? 'Save Changes' : 'Create Product' %>
+        </button>
+        <a href="/owners/products"
+          class="text-xs text-dim-400 hover:text-dim-200 transition-colors duration-200 tracking-wide">
+          Cancel
+        </a>
+      </div>
+
+    </form>
+  </main>
+</div>
+
+<script>
+  <%# Live color preview sync %>
+  const bgInput    = document.querySelector('input[name="bgcolor"]');
+  const panelInput = document.querySelector('input[name="panelcolor"]');
+  const textInput  = document.querySelector('input[name="textcolor"]');
+
+  function syncPreview() {
+    const bg    = bgInput.value    || '#111111';
+    const panel = panelInput.value || '#0d0d0d';
+    const text  = textInput.value  || '#cccccc';
+
+    document.getElementById('previewBg').style.backgroundColor    = bg;
+    document.getElementById('previewPanel').style.backgroundColor = panel;
+    document.querySelectorAll('#previewText, #previewPrice').forEach(el => el.style.color = text);
+    document.querySelector('#previewBg i').style.color = text;
+
+    document.getElementById('bgPreview').style.backgroundColor    = bg;
+    document.getElementById('panelPreview').style.backgroundColor = panel;
+    document.getElementById('textPreview').style.backgroundColor  = text;
+  }
+
+  bgInput.addEventListener('input', syncPreview);
+  panelInput.addEventListener('input', syncPreview);
+  textInput.addEventListener('input', syncPreview);
+</script>
+
+<%- include('./partials/footer-minimal') %>
