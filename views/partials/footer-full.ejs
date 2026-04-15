@@ -1,0 +1,88 @@
+  <%# ── FOOTER FULL — used on: index.ejs, auth.ejs, shop.ejs, product.ejs ── %>
+  <footer class="bg-noir-card border-t border-noir-border mt-auto">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 py-16">
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+
+        <%# Brand %>
+        <div class="md:col-span-1">
+          <div class="font-display text-2xl font-bold tracking-wider text-dim-100 mb-4">
+            JH<span class="text-gold">OLA</span>
+          </div>
+          <p class="text-dim-400 text-sm leading-relaxed mb-6 max-w-[220px]">
+            Premium bags crafted for the modern lifestyle. Quality you can trust.
+          </p>
+          <div class="flex gap-3">
+            <a href="#" class="w-9 h-9 border border-noir-border hover:border-gold/40 rounded flex items-center justify-center text-dim-400 hover:text-gold transition-all duration-200 text-sm">
+              <i class="ri-instagram-line"></i>
+            </a>
+            <a href="#" class="w-9 h-9 border border-noir-border hover:border-gold/40 rounded flex items-center justify-center text-dim-400 hover:text-gold transition-all duration-200 text-sm">
+              <i class="ri-twitter-x-line"></i>
+            </a>
+            <a href="#" class="w-9 h-9 border border-noir-border hover:border-gold/40 rounded flex items-center justify-center text-dim-400 hover:text-gold transition-all duration-200 text-sm">
+              <i class="ri-facebook-fill"></i>
+            </a>
+          </div>
+        </div>
+
+        <%# Quick Links %>
+        <div>
+          <h4 class="text-xs font-semibold tracking-widest uppercase text-dim-100 mb-5">Shop</h4>
+          <ul class="space-y-3 text-sm text-dim-400">
+            <li><a href="/shop" class="hover:text-gold transition-colors duration-200">All Products</a></li>
+            <li><a href="/shop?category=backpack" class="hover:text-gold transition-colors duration-200">Backpacks</a></li>
+            <li><a href="/shop?category=tote" class="hover:text-gold transition-colors duration-200">Tote Bags</a></li>
+            <li><a href="/shop?category=handbag" class="hover:text-gold transition-colors duration-200">Handbags</a></li>
+            <li><a href="/shop?category=clutch" class="hover:text-gold transition-colors duration-200">Clutch</a></li>
+          </ul>
+        </div>
+
+        <%# Help %>
+        <div>
+          <h4 class="text-xs font-semibold tracking-widest uppercase text-dim-100 mb-5">Help</h4>
+          <ul class="space-y-3 text-sm text-dim-400">
+            <li><a href="#" class="hover:text-gold transition-colors duration-200">FAQs</a></li>
+            <li><a href="#" class="hover:text-gold transition-colors duration-200">Shipping Info</a></li>
+            <li><a href="#" class="hover:text-gold transition-colors duration-200">Returns</a></li>
+            <li><a href="#" class="hover:text-gold transition-colors duration-200">Size Guide</a></li>
+            <li><a href="#" class="hover:text-gold transition-colors duration-200">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <%# Contact %>
+        <div>
+          <h4 class="text-xs font-semibold tracking-widest uppercase text-dim-100 mb-5">Contact</h4>
+          <ul class="space-y-3 text-sm text-dim-400">
+            <li class="flex items-center gap-2.5">
+              <i class="ri-mail-line text-gold/60 text-base"></i>
+              support@jhola.com
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i class="ri-phone-line text-gold/60 text-base"></i>
+              +91 98765 43210
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i class="ri-map-pin-line text-gold/60 text-base"></i>
+              Mumbai, India
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <%# Bottom bar %>
+      <div class="border-t border-noir-border mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="text-xs text-dim-400 tracking-wide">
+          &copy; 2025 Jhola. All rights reserved.
+        </p>
+        <div class="flex gap-6 text-xs text-dim-400">
+          <a href="#" class="hover:text-gold transition-colors duration-200">Privacy Policy</a>
+          <a href="#" class="hover:text-gold transition-colors duration-200">Terms of Service</a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,45 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jhola</title>
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jhola — Premium Bags & Accessories</title>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            noir: { DEFAULT: '#080808', card: '#0d0d0d', input: '#111111', border: '#1c1c1c', hover: '#161616' },
+            gold: { DEFAULT: '#c9a96e', light: '#d4ba85', dark: '#a88a52', muted: '#c9a96e26' },
+            dim: { 100: '#ffffff', 200: '#cccccc', 300: '#999999', 400: '#555555', 500: '#333333' }
+          },
+          fontFamily: {
+            display: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['"DM Sans"', 'Helvetica Neue', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body { background: #080808; color: #cccccc; font-family: 'DM Sans', sans-serif; }
+    ::selection { background: #c9a96e40; color: #c9a96e; }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: #080808; }
+    ::-webkit-scrollbar-thumb { background: #1c1c1c; border-radius: 2px; }
+    .nav-link { position: relative; }
+    .nav-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 0.5px; background: #c9a96e; transition: width 0.3s ease; }
+    .nav-link:hover::after { width: 100%; }
+    .nav-link.active::after { width: 100%; }
+  </style>
 </head>
 
-<body class="bg-white text-zinc-800">
-    <nav class="w-full flex justify-between items-center px-8 py-4 border-b border-zinc-100 sticky top-0 bg-white z-50">
-        <a href="/" class="text-2xl font-bold tracking-tight text-zinc-900">Jhola</a>
-        
-        <% if(locals.loggedInUser) { %>
-        <div class="flex gap-6 text-sm font-medium items-center">
-            <a href="/shop" class="text-zinc-600 hover:text-zinc-900 transition-colors">Shop</a>
-            <a href="/cart" class="text-zinc-600 hover:text-zinc-900 transition-colors flex items-center gap-1">
-                <i class="ri-shopping-cart-line"></i> Cart
-            </a>
-            <a href="/profile" class="text-zinc-600 hover:text-zinc-900 transition-colors flex items-center gap-1">
-                <i class="ri-user-line"></i> Profile
-            </a>
-            <a href="/logout" class="px-4 py-1.5 bg-red-50 text-red-600 rounded-full hover:bg-red-100 transition-colors text-xs font-semibold">
-                Logout
-            </a>
-        </div>
-        <% } else { %>
-        <div class="flex gap-4 text-sm font-medium items-center">
-            <a href="/auth" class="text-zinc-600 hover:text-zinc-900 transition-colors">Login</a>
-            <a href="/auth" class="px-5 py-2 bg-zinc-900 hover:bg-zinc-700 text-white rounded-full transition">
-                Sign Up
-            </a>
-        </div>
-        <% } %>
-    </nav>
-</body>
+<body class="bg-noir text-dim-200">
 
-</html>
+  <%# ── ANNOUNCEMENT BAR ── %>
+  <div class="bg-gold text-noir text-center py-2.5 px-4 text-xs font-semibold tracking-widest uppercase">
+    New Collection 2025 &nbsp;·&nbsp; Free shipping on orders above ₹999
+  </div>
+
+  <%# ── FLASH MESSAGES ── %>
+  <% if(locals.success && success.length > 0) { %>
+    <div id="flash-success" class="fixed top-5 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-3 px-5 py-3 rounded-lg bg-noir-card border border-gold/30 text-gold text-sm font-medium shadow-2xl" style="animation: slideDown 0.3s ease">
+      <i class="ri-checkbox-circle-line text-base"></i>
+      <%= success[0] %>
+    </div>
+  <% } %>
+
+  <% if(locals.error && error.length > 0) { %>
+    <div id="flash-error" class="fixed top-5 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-3 px-5 py-3 rounded-lg bg-noir-card border border-red-800/50 text-red-400 text-sm font-medium shadow-2xl" style="animation: slideDown 0.3s ease">
+      <i class="ri-error-warning-line text-base"></i>
+      <%= error[0] %>
+    </div>
+  <% } %>
+
+  <%# ── NAVBAR ── %>
+  <nav class="sticky top-0 z-50 w-full border-b border-noir-border bg-noir/90 backdrop-blur-xl">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 flex items-center justify-between h-16">
+
+      <%# Logo %>
+      <a href="/" class="font-display text-2xl font-bold tracking-wider text-dim-100 hover:text-gold transition-colors duration-300">
+        JH<span class="text-gold">OLA</span>
+      </a>
+
+      <%# Middle Nav %>
+      <div class="hidden md:flex items-center gap-8 text-xs font-medium tracking-widest uppercase text-dim-400">
+
+        <a href="/" class="nav-link hover:text-dim-100 transition-colors duration-200 <% if(locals.currentPage === 'home') { %>active text-dim-100<% } %>">
+          Home
+        </a>
+        <a href="/shop" class="nav-link hover:text-dim-100 transition-colors duration-200 <% if(locals.currentPage === 'shop') { %>active text-dim-100<% } %>">
+          Shop
+        </a>
+
+        <% if(locals.loggedInUser) { %>
+          <a href="/cart" class="nav-link hover:text-dim-100 transition-colors duration-200 flex items-center gap-1.5 <% if(locals.currentPage === 'cart') { %>active text-dim-100<% } %>">
+            <i class="ri-shopping-bag-line"></i> Cart
+          </a>
+          <% if(loggedInUser.role === 'admin') { %>
+            <a href="/owners/admin" class="nav-link hover:text-dim-100 transition-colors duration-200 flex items-center gap-1.5 <% if(locals.currentPage === 'admin') { %>active text-dim-100<% } %>">
+              <i class="ri-shield-keyhole-line text-gold"></i>
+              <span class="text-gold">Admin</span>
+            </a>
+            <a href="/owners/users" class="nav-link hover:text-dim-100 transition-colors duration-200 flex items-center gap-1.5">
+              <i class="ri-team-line"></i> Users
+            </a>
+          <% } %>
+        <% } %>
+      </div>
+
+      <%# Right side %>
+      <div class="flex items-center gap-3">
+        <% if(locals.loggedInUser) { %>
+          <%# Logged in state %>
+          <a href="/profile" class="flex items-center gap-2.5 group">
+            <div class="w-8 h-8 rounded-full border border-gold/40 flex items-center justify-center text-xs font-bold text-gold group-hover:border-gold transition-colors duration-200 <%= loggedInUser.role === 'admin' ? 'bg-gold/10' : 'bg-noir-card' %>">
+              <%= loggedInUser.fullname.charAt(0).toUpperCase() %>
+            </div>
+            <div class="hidden sm:flex flex-col">
+              <span class="text-xs font-medium text-dim-200 group-hover:text-dim-100 transition-colors leading-tight">
+                <%= loggedInUser.fullname.split(' ')[0] %>
+              </span>
+              <% if(loggedInUser.role === 'admin') { %>
+                <span class="text-[9px] text-gold font-bold tracking-widest uppercase leading-tight">Admin</span>
+              <% } %>
+            </div>
+          </a>
+          <a href="/logout" class="flex items-center gap-1.5 px-4 py-2 border border-noir-border hover:border-red-900/60 hover:bg-red-950/20 text-dim-400 hover:text-red-400 rounded text-xs font-medium tracking-wide uppercase transition-all duration-200">
+            <i class="ri-logout-box-r-line text-sm"></i>
+            <span class="hidden sm:inline">Logout</span>
+          </a>
+        <% } else { %>
+          <%# Guest state %>
+          <a href="/auth" class="text-xs font-medium tracking-widest uppercase text-dim-400 hover:text-dim-100 transition-colors duration-200">
+            Login
+          </a>
+          <a href="/auth" class="px-5 py-2.5 bg-gold hover:bg-gold-light text-noir text-xs font-bold tracking-widest uppercase rounded transition-all duration-200 hover:scale-[1.02]">
+            Sign Up
+          </a>
+        <% } %>
+      </div>
+
+    </div>
+  </nav>
+
+  <style>
+    @keyframes slideDown {
+      from { opacity: 0; transform: translate(-50%, -12px); }
+      to   { opacity: 1; transform: translate(-50%, 0); }
+    }
+  </style>
+
+  <script>
+    ['flash-success','flash-error'].forEach(id => {
+      const el = document.getElementById(id);
+      if(el) setTimeout(() => {
+        el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+        el.style.opacity = '0';
+        el.style.transform = 'translate(-50%, -12px)';
+        setTimeout(() => el.remove(), 400);
+      }, 3000);
+    });
+  </script>

@@ -1,280 +1,252 @@
-<%- include('./partials/header-landing') %>
+<%- include('./partials/header') %>
 
-<!-- Hero Section -->
-<section class="bg-white">
-    <div class="max-w-6xl mx-auto px-8 py-24 lg:py-32">
-        <div class="flex flex-col lg:flex-row items-center gap-16">
-            
-            <!-- Left Content -->
-            <div class="flex-1 text-center lg:text-left">
-                <p class="text-sm font-medium text-zinc-500 mb-4 tracking-wide">
-                    NEW COLLECTION 2025
-                </p>
-                <h1 class="text-4xl lg:text-6xl font-bold text-zinc-900 leading-tight mb-6">
-                    Carry Your Style <br> Everywhere
-                </h1>
-                <p class="text-lg text-zinc-500 mb-8 max-w-md mx-auto lg:mx-0">
-                    Premium bags crafted for the modern lifestyle. From work to weekend, we've got you covered.
-                </p>
-                
-                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                    <a href="/shop" 
-                       class="px-8 py-4 bg-zinc-900 hover:bg-zinc-700 text-white font-medium rounded-full transition text-sm inline-flex items-center justify-center gap-2">
-                        <i class="ri-shopping-bag-line"></i>
-                        Shop Now
-                    </a>
-                    <a href="/auth" 
-                       class="px-8 py-4 border border-zinc-200 hover:border-zinc-300 text-zinc-700 font-medium rounded-full transition text-sm inline-flex items-center justify-center gap-2">
-                        Get Started
-                    </a>
-                </div>
-                
-                <!-- Stats -->
-                <div class="flex items-center gap-10 mt-12 justify-center lg:justify-start">
-                    <div>
-                        <p class="text-2xl font-bold text-zinc-900">10K+</p>
-                        <p class="text-xs text-zinc-400">Customers</p>
-                    </div>
-                    <div class="w-px h-10 bg-zinc-100"></div>
-                    <div>
-                        <p class="text-2xl font-bold text-zinc-900">500+</p>
-                        <p class="text-xs text-zinc-400">Products</p>
-                    </div>
-                    <div class="w-px h-10 bg-zinc-100"></div>
-                    <div>
-                        <p class="text-2xl font-bold text-zinc-900">4.9</p>
-                        <p class="text-xs text-zinc-400">Rating</p>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Right Image -->
-            <div class="flex-1">
-                <div class="bg-zinc-50 rounded-3xl p-6 max-w-md mx-auto">
-                    <img 
-                        src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=500&h=600&fit=crop" 
-                        alt="Featured Bag" 
-                        class="w-full h-80 object-cover rounded-2xl"
-                    >
-                    <div class="mt-4 flex items-center justify-between">
-                        <div>
-                            <p class="text-xs text-zinc-400 mb-1">Bestseller</p>
-                            <h3 class="font-semibold text-zinc-900">Premium Leather Tote</h3>
-                        </div>
-                        <p class="text-lg font-bold text-zinc-900">₹2,499</p>
-                    </div>
-                </div>
-            </div>
+<%# ── HERO — full bleed, no box panels ── %>
+<section class="min-h-screen flex flex-col justify-center px-8 lg:px-20 pt-16 pb-20">
+  <div class="max-w-7xl mx-auto w-full flex flex-col lg:flex-row items-start lg:items-center gap-16">
+
+    <%# Left %>
+    <div class="flex-1">
+      <div class="flex items-center gap-3 mb-8">
+        <div class="w-8 h-px bg-gold"></div>
+        <span class="text-[10px] tracking-[0.28em] uppercase text-gold font-medium">New Collection 2025</span>
+      </div>
+
+      <h1 class="font-display font-bold text-dim-100 leading-[0.92] mb-8" style="font-size:clamp(56px,9vw,110px)">
+        Carry<br>Your<br><em class="font-normal italic text-gold">Style.</em>
+      </h1>
+
+      <p class="text-dim-400 text-base leading-relaxed max-w-xs mb-10">
+        Premium bags crafted for the modern lifestyle. From work to weekend.
+      </p>
+
+      <div class="flex flex-wrap items-center gap-4 mb-16">
+        <a href="/shop" class="inline-flex items-center gap-2 px-8 py-3.5 bg-gold hover:bg-gold-light text-noir text-xs font-bold tracking-[0.12em] uppercase rounded-sm transition-all duration-200 hover:scale-[1.02]">
+          Shop Now
+        </a>
+        <a href="/auth" class="inline-flex items-center gap-2 px-8 py-3.5 text-dim-400 hover:text-dim-100 text-xs font-medium tracking-[0.1em] uppercase border border-dim-500 hover:border-dim-400 rounded-sm transition-all duration-200">
+          Explore
+        </a>
+      </div>
+
+      <div class="flex items-center gap-10 pt-8 border-t border-noir-border">
+        <div>
+          <div class="font-display font-bold text-dim-100 text-3xl">10K<span class="text-gold text-xl">+</span></div>
+          <div class="text-[9px] text-dim-400 tracking-[0.15em] uppercase mt-1">Customers</div>
         </div>
+        <div class="w-px h-8 bg-noir-border"></div>
+        <div>
+          <div class="font-display font-bold text-dim-100 text-3xl">500<span class="text-gold text-xl">+</span></div>
+          <div class="text-[9px] text-dim-400 tracking-[0.15em] uppercase mt-1">Products</div>
+        </div>
+        <div class="w-px h-8 bg-noir-border"></div>
+        <div>
+          <div class="font-display font-bold text-dim-100 text-3xl">4.9<span class="text-gold text-xl">★</span></div>
+          <div class="text-[9px] text-dim-400 tracking-[0.15em] uppercase mt-1">Rating</div>
+        </div>
+      </div>
     </div>
+
+    <%# Right — floating card, no background panel %>
+    <div class="hidden lg:flex flex-col items-end gap-4 flex-shrink-0">
+      <div class="w-72 bg-noir-card rounded-lg overflow-hidden border border-noir-border">
+        <div class="h-52 bg-noir-input flex items-center justify-center">
+          <svg width="110" height="110" viewBox="0 0 110 110" fill="none" opacity="0.55">
+            <rect x="18" y="42" width="74" height="56" rx="9" fill="#1e1e1e" stroke="#c9a96e" stroke-width="0.8"/>
+            <path d="M35 42 C35 26 75 26 75 42" stroke="#c9a96e" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <rect x="43" y="60" width="24" height="17" rx="3.5" fill="none" stroke="#c9a96e" stroke-width="0.8"/>
+            <circle cx="55" cy="68.5" r="3.5" fill="#c9a96e"/>
+          </svg>
+        </div>
+        <div class="px-5 py-4 flex items-center justify-between">
+          <div>
+            <div class="text-[9px] text-dim-400 tracking-[0.12em] uppercase mb-0.5">Bestseller</div>
+            <div class="text-dim-200 text-sm font-medium">Premium Leather Tote</div>
+          </div>
+          <div class="font-display text-gold text-lg font-bold">₹2,499</div>
+        </div>
+      </div>
+      <div class="flex gap-2">
+        <a href="/shop?category=backpack" class="text-[9px] tracking-[0.12em] uppercase text-dim-400 hover:text-gold border border-noir-border hover:border-gold/30 px-3 py-2 rounded-sm transition-all duration-200">Backpacks</a>
+        <a href="/shop?category=clutch" class="text-[9px] tracking-[0.12em] uppercase text-dim-400 hover:text-gold border border-noir-border hover:border-gold/30 px-3 py-2 rounded-sm transition-all duration-200">Clutch</a>
+        <a href="/shop?category=duffle" class="text-[9px] tracking-[0.12em] uppercase text-dim-400 hover:text-gold border border-noir-border hover:border-gold/30 px-3 py-2 rounded-sm transition-all duration-200">Duffle</a>
+      </div>
+    </div>
+
+  </div>
 </section>
 
-<!-- Features Section -->
-<section class="py-20 border-t border-zinc-100">
-    <div class="max-w-6xl mx-auto px-8">
-        <div class="text-center mb-16">
-            <h2 class="text-2xl lg:text-3xl font-bold text-zinc-900 mb-3">Why Choose Jhola?</h2>
-            <p class="text-zinc-500 text-sm max-w-lg mx-auto">
-                Quality products with exceptional service
-            </p>
+<%# ── FEATURES STRIP ── %>
+<div class="border-t border-noir-border">
+  <div class="max-w-7xl mx-auto px-8 lg:px-20">
+    <div class="grid grid-cols-2 lg:grid-cols-4 divide-x divide-noir-border">
+      <div class="flex items-center gap-4 py-7 pr-10">
+        <i class="ri-truck-line text-gold text-lg flex-shrink-0"></i>
+        <div>
+          <div class="text-xs font-medium text-dim-200">Free Shipping</div>
+          <div class="text-[11px] text-dim-400 mt-0.5">On orders above ₹999</div>
         </div>
-        
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            <div class="text-center">
-                <div class="w-12 h-12 mx-auto mb-4 bg-zinc-100 rounded-xl flex items-center justify-center">
-                    <i class="ri-truck-line text-xl text-zinc-600"></i>
-                </div>
-                <h3 class="font-medium text-zinc-900 text-sm mb-1">Free Shipping</h3>
-                <p class="text-xs text-zinc-400">On orders above ₹999</p>
-            </div>
-            
-            <div class="text-center">
-                <div class="w-12 h-12 mx-auto mb-4 bg-zinc-100 rounded-xl flex items-center justify-center">
-                    <i class="ri-shield-check-line text-xl text-zinc-600"></i>
-                </div>
-                <h3 class="font-medium text-zinc-900 text-sm mb-1">Secure Payments</h3>
-                <p class="text-xs text-zinc-400">100% protected</p>
-            </div>
-            
-            <div class="text-center">
-                <div class="w-12 h-12 mx-auto mb-4 bg-zinc-100 rounded-xl flex items-center justify-center">
-                    <i class="ri-loop-left-line text-xl text-zinc-600"></i>
-                </div>
-                <h3 class="font-medium text-zinc-900 text-sm mb-1">Easy Returns</h3>
-                <p class="text-xs text-zinc-400">30-day policy</p>
-            </div>
-            
-            <div class="text-center">
-                <div class="w-12 h-12 mx-auto mb-4 bg-zinc-100 rounded-xl flex items-center justify-center">
-                    <i class="ri-customer-service-2-line text-xl text-zinc-600"></i>
-                </div>
-                <h3 class="font-medium text-zinc-900 text-sm mb-1">24/7 Support</h3>
-                <p class="text-xs text-zinc-400">Always here</p>
-            </div>
+      </div>
+      <div class="flex items-center gap-4 py-7 px-10">
+        <i class="ri-shield-check-line text-gold text-lg flex-shrink-0"></i>
+        <div>
+          <div class="text-xs font-medium text-dim-200">Secure Payments</div>
+          <div class="text-[11px] text-dim-400 mt-0.5">100% protected</div>
         </div>
+      </div>
+      <div class="flex items-center gap-4 py-7 px-10">
+        <i class="ri-loop-left-line text-gold text-lg flex-shrink-0"></i>
+        <div>
+          <div class="text-xs font-medium text-dim-200">Easy Returns</div>
+          <div class="text-[11px] text-dim-400 mt-0.5">30-day policy</div>
+        </div>
+      </div>
+      <div class="flex items-center gap-4 py-7 pl-10">
+        <i class="ri-customer-service-2-line text-gold text-lg flex-shrink-0"></i>
+        <div>
+          <div class="text-xs font-medium text-dim-200">24/7 Support</div>
+          <div class="text-[11px] text-dim-400 mt-0.5">Always here for you</div>
+        </div>
+      </div>
     </div>
+  </div>
+</div>
+
+<%# ── CATEGORIES ── %>
+<section class="py-24 border-t border-noir-border">
+  <div class="max-w-7xl mx-auto px-8 lg:px-20">
+    <div class="flex items-end justify-between mb-14">
+      <div>
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-6 h-px bg-gold"></div>
+          <span class="text-[10px] tracking-[0.22em] uppercase text-gold">Browse</span>
+        </div>
+        <h2 class="font-display font-bold text-dim-100 text-5xl">Shop by Category</h2>
+      </div>
+      <a href="/shop" class="text-[10px] tracking-[0.12em] uppercase text-dim-400 hover:text-gold border-b border-dim-500 hover:border-gold pb-px transition-all duration-200 hidden md:block">View All →</a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+      <a href="/shop?category=tote" class="group relative rounded-md overflow-hidden h-80 md:h-[420px]">
+        <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=700&h=900&fit=crop&q=80" alt="Tote Bags"
+             class="absolute inset-0 w-full h-full object-cover opacity-55 group-hover:opacity-75 group-hover:scale-[1.03] transition-all duration-500 ease-out">
+        <div class="absolute inset-0 bg-gradient-to-t from-noir via-noir/30 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-7 flex items-end justify-between">
+          <div>
+            <h3 class="font-display text-2xl font-bold text-dim-100">Tote Bags</h3>
+            <p class="text-[10px] text-dim-400 tracking-[0.12em] uppercase mt-1.5">80+ Products</p>
+          </div>
+          <div class="w-9 h-9 border border-gold/30 rounded-sm flex items-center justify-center text-gold group-hover:bg-gold group-hover:text-noir transition-all duration-300">→</div>
+        </div>
+      </a>
+
+      <a href="/shop?category=backpack" class="group relative rounded-md overflow-hidden h-80 md:h-[420px]">
+        <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=700&h=900&fit=crop&q=80" alt="Backpacks"
+             class="absolute inset-0 w-full h-full object-cover opacity-55 group-hover:opacity-75 group-hover:scale-[1.03] transition-all duration-500 ease-out">
+        <div class="absolute inset-0 bg-gradient-to-t from-noir via-noir/30 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-7 flex items-end justify-between">
+          <div>
+            <h3 class="font-display text-2xl font-bold text-dim-100">Backpacks</h3>
+            <p class="text-[10px] text-dim-400 tracking-[0.12em] uppercase mt-1.5">50+ Products</p>
+          </div>
+          <div class="w-9 h-9 border border-gold/30 rounded-sm flex items-center justify-center text-gold group-hover:bg-gold group-hover:text-noir transition-all duration-300">→</div>
+        </div>
+      </a>
+
+      <a href="/shop?category=handbag" class="group relative rounded-md overflow-hidden h-80 md:h-[420px]">
+        <img src="https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=700&h=900&fit=crop&q=80" alt="Handbags"
+             class="absolute inset-0 w-full h-full object-cover opacity-55 group-hover:opacity-75 group-hover:scale-[1.03] transition-all duration-500 ease-out">
+        <div class="absolute inset-0 bg-gradient-to-t from-noir via-noir/30 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-7 flex items-end justify-between">
+          <div>
+            <h3 class="font-display text-2xl font-bold text-dim-100">Handbags</h3>
+            <p class="text-[10px] text-dim-400 tracking-[0.12em] uppercase mt-1.5">100+ Products</p>
+          </div>
+          <div class="w-9 h-9 border border-gold/30 rounded-sm flex items-center justify-center text-gold group-hover:bg-gold group-hover:text-noir transition-all duration-300">→</div>
+        </div>
+      </a>
+    </div>
+  </div>
 </section>
 
-<!-- Categories Section -->
-<section class="py-20 bg-zinc-50">
-    <div class="max-w-6xl mx-auto px-8">
-        <div class="text-center mb-12">
-            <h2 class="text-2xl lg:text-3xl font-bold text-zinc-900 mb-3">Shop by Category</h2>
-            <p class="text-zinc-500 text-sm">Find the perfect bag for every occasion</p>
-        </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <a href="/shop" class="group relative h-72 rounded-2xl overflow-hidden">
-                <img 
-                    src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=500&fit=crop" 
-                    alt="Backpacks" 
-                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                >
-                <div class="absolute inset-0 bg-black/40"></div>
-                <div class="absolute bottom-5 left-5 text-white">
-                    <h3 class="text-xl font-semibold">Backpacks</h3>
-                    <p class="text-xs opacity-70 mt-1">50+ Products</p>
-                </div>
-            </a>
-            
-            <a href="/shop" class="group relative h-72 rounded-2xl overflow-hidden">
-                <img 
-                    src="https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=400&h=500&fit=crop" 
-                    alt="Tote Bags" 
-                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                >
-                <div class="absolute inset-0 bg-black/40"></div>
-                <div class="absolute bottom-5 left-5 text-white">
-                    <h3 class="text-xl font-semibold">Tote Bags</h3>
-                    <p class="text-xs opacity-70 mt-1">80+ Products</p>
-                </div>
-            </a>
-            
-            <a href="/shop" class="group relative h-72 rounded-2xl overflow-hidden">
-                <img 
-                    src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&h=500&fit=crop" 
-                    alt="Handbags" 
-                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                >
-                <div class="absolute inset-0 bg-black/40"></div>
-                <div class="absolute bottom-5 left-5 text-white">
-                    <h3 class="text-xl font-semibold">Handbags</h3>
-                    <p class="text-xs opacity-70 mt-1">100+ Products</p>
-                </div>
-            </a>
-        </div>
+<%# ── TESTIMONIALS ── %>
+<section class="py-24 border-t border-noir-border">
+  <div class="max-w-7xl mx-auto px-8 lg:px-20">
+    <div class="text-center mb-16">
+      <div class="flex items-center justify-center gap-3 mb-4">
+        <div class="w-5 h-px bg-gold"></div>
+        <span class="text-[10px] tracking-[0.22em] uppercase text-gold">Reviews</span>
+        <div class="w-5 h-px bg-gold"></div>
+      </div>
+      <h2 class="font-display font-bold text-dim-100 text-5xl">What Customers Say</h2>
     </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div class="bg-noir-card rounded-md p-7">
+        <div class="flex gap-0.5 mb-5 text-gold text-sm">
+          <i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i>
+        </div>
+        <p class="font-display italic text-dim-400 text-sm leading-relaxed mb-6">"Amazing quality bags! The leather tote I bought is absolutely stunning. Fast delivery too!"</p>
+        <div class="flex items-center gap-3 pt-5 border-t border-noir-border">
+          <div class="w-8 h-8 rounded-full bg-gold/10 border border-gold/25 flex items-center justify-center text-gold text-xs font-bold">P</div>
+          <div><div class="text-dim-200 text-xs font-medium">Priya Sharma</div><div class="text-dim-400 text-[10px]">Mumbai</div></div>
+        </div>
+      </div>
+
+      <div class="bg-noir-card rounded-md p-7">
+        <div class="flex gap-0.5 mb-5 text-gold text-sm">
+          <i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i>
+        </div>
+        <p class="font-display italic text-dim-400 text-sm leading-relaxed mb-6">"Best backpack I've ever owned. Perfect for work and travel. Customer service was super helpful!"</p>
+        <div class="flex items-center gap-3 pt-5 border-t border-noir-border">
+          <div class="w-8 h-8 rounded-full bg-gold/10 border border-gold/25 flex items-center justify-center text-gold text-xs font-bold">R</div>
+          <div><div class="text-dim-200 text-xs font-medium">Rahul Verma</div><div class="text-dim-400 text-[10px]">Delhi</div></div>
+        </div>
+      </div>
+
+      <div class="bg-noir-card rounded-md p-7">
+        <div class="flex gap-0.5 mb-5 text-sm">
+          <i class="ri-star-fill text-gold"></i><i class="ri-star-fill text-gold"></i><i class="ri-star-fill text-gold"></i><i class="ri-star-fill text-gold"></i><i class="ri-star-half-fill text-gold"></i>
+        </div>
+        <p class="font-display italic text-dim-400 text-sm leading-relaxed mb-6">"Love the variety of designs! Already bought 3 bags and planning to get more. Highly recommend!"</p>
+        <div class="flex items-center gap-3 pt-5 border-t border-noir-border">
+          <div class="w-8 h-8 rounded-full bg-gold/10 border border-gold/25 flex items-center justify-center text-gold text-xs font-bold">A</div>
+          <div><div class="text-dim-200 text-xs font-medium">Ananya Patel</div><div class="text-dim-400 text-[10px]">Bangalore</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- Testimonials Section -->
-<section class="py-20 bg-white">
-    <div class="max-w-6xl mx-auto px-8">
-        <div class="text-center mb-12">
-            <h2 class="text-2xl lg:text-3xl font-bold text-zinc-900 mb-3">What Customers Say</h2>
-            <p class="text-zinc-500 text-sm">Join thousands of satisfied shoppers</p>
-        </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="border border-zinc-100 rounded-2xl p-6">
-                <div class="flex gap-0.5 mb-4">
-                    <i class="ri-star-fill text-zinc-900 text-sm"></i>
-                    <i class="ri-star-fill text-zinc-900 text-sm"></i>
-                    <i class="ri-star-fill text-zinc-900 text-sm"></i>
-                    <i class="ri-star-fill text-zinc-900 text-sm"></i>
-                    <i class="ri-star-fill text-zinc-900 text-sm"></i>
-                </div>
-                <p class="text-zinc-600 text-sm mb-6">
-                    "Amazing quality bags! The leather tote I bought is absolutely stunning. Fast delivery too!"
-                </p>
-                <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 bg-zinc-100 rounded-full flex items-center justify-center">
-                        <span class="font-semibold text-zinc-600 text-sm">P</span>
-                    </div>
-                    <div>
-                        <p class="font-medium text-zinc-900 text-sm">Priya Sharma</p>
-                        <p class="text-xs text-zinc-400">Mumbai</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="border border-zinc-100 rounded-2xl p-6">
-                <div class="flex gap-0.5 mb-4">
-                    <i class="ri-star-fill text-zinc-900 text-sm"></i>
-                    <i class="ri-star-fill text-zinc-900 text-sm"></i>
-                    <i class="ri-star-fill text-zinc-900 text-sm"></i>
-                    <i class="ri-star-fill text-zinc-900 text-sm"></i>
-                    <i class="ri-star-fill text-zinc-900 text-sm"></i>
-                </div>
-                <p class="text-zinc-600 text-sm mb-6">
-                    "Best backpack I've ever owned. Perfect for work and travel. Customer service was super helpful!"
-                </p>
-                <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 bg-zinc-100 rounded-full flex items-center justify-center">
-                        <span class="font-semibold text-zinc-600 text-sm">R</span>
-                    </div>
-                    <div>
-                        <p class="font-medium text-zinc-900 text-sm">Rahul Verma</p>
-                        <p class="text-xs text-zinc-400">Delhi</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="border border-zinc-100 rounded-2xl p-6">
-                <div class="flex gap-0.5 mb-4">
-                    <i class="ri-star-fill text-zinc-900 text-sm"></i>
-                    <i class="ri-star-fill text-zinc-900 text-sm"></i>
-                    <i class="ri-star-fill text-zinc-900 text-sm"></i>
-                    <i class="ri-star-fill text-zinc-900 text-sm"></i>
-                    <i class="ri-star-half-fill text-zinc-900 text-sm"></i>
-                </div>
-                <p class="text-zinc-600 text-sm mb-6">
-                    "Love the variety of designs! Already bought 3 bags and planning to get more. Highly recommend!"
-                </p>
-                <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 bg-zinc-100 rounded-full flex items-center justify-center">
-                        <span class="font-semibold text-zinc-600 text-sm">A</span>
-                    </div>
-                    <div>
-                        <p class="font-medium text-zinc-900 text-sm">Ananya Patel</p>
-                        <p class="text-xs text-zinc-400">Bangalore</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+<%# ── CTA ── %>
+<section class="py-24 border-t border-noir-border">
+  <div class="max-w-7xl mx-auto px-8 lg:px-20 flex flex-col lg:flex-row items-center justify-between gap-12">
+    <div>
+      <div class="flex items-center gap-3 mb-5">
+        <div class="w-6 h-px bg-gold"></div>
+        <span class="text-[10px] tracking-[0.22em] uppercase text-gold">Limited Time</span>
+      </div>
+      <h2 class="font-display font-bold text-dim-100 leading-[0.95] mb-4" style="font-size:clamp(36px,5vw,60px)">
+        Ready to Elevate<br>Your <em class="text-gold italic font-normal">Style?</em>
+      </h2>
+      <p class="text-dim-400 text-sm">Join Jhola today and get 15% off on your first order.</p>
     </div>
-</section>
-
-<!-- CTA Section -->
-<section class="py-20 bg-zinc-900">
-    <div class="max-w-3xl mx-auto px-8 text-center">
-        <h2 class="text-2xl lg:text-4xl font-bold text-white mb-4">
-            Ready to Elevate Your Style?
-        </h2>
-        <p class="text-zinc-400 mb-8 text-sm">
-            Join Jhola today and get 15% off on your first order
-        </p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="/auth" 
-               class="px-8 py-4 bg-white hover:bg-zinc-100 text-zinc-900 font-medium rounded-full transition text-sm inline-flex items-center justify-center gap-2">
-                <i class="ri-user-add-line"></i>
-                Create Account
-            </a>
-            <a href="/shop" 
-               class="px-8 py-4 border border-zinc-700 hover:border-zinc-600 text-white font-medium rounded-full transition text-sm inline-flex items-center justify-center gap-2">
-                Browse Products
-            </a>
-        </div>
+    <div class="flex flex-col sm:flex-row gap-4 flex-shrink-0">
+      <a href="/auth" class="inline-flex items-center justify-center gap-2 px-9 py-4 bg-gold hover:bg-gold-light text-noir text-xs font-bold tracking-[0.12em] uppercase rounded-sm transition-all duration-200 hover:scale-[1.02]">
+        <i class="ri-user-add-line"></i> Create Account
+      </a>
+      <a href="/shop" class="inline-flex items-center justify-center gap-2 px-9 py-4 border border-dim-500 hover:border-dim-300 text-dim-400 hover:text-dim-100 text-xs font-medium tracking-[0.1em] uppercase rounded-sm transition-all duration-200">
+        Browse Products <i class="ri-arrow-right-line"></i>
+      </a>
     </div>
+  </div>
 </section>
 
 <% if(locals.needsSetup) { %>
-<div class="fixed bottom-6 right-6 z-50">
-    <a href="/setup" 
-       class="flex items-center gap-2 px-5 py-3 bg-zinc-900 text-white text-sm font-medium rounded-full shadow-lg hover:bg-zinc-700 transition">
-        <i class="ri-settings-3-line"></i>
-        Setup Required
+  <div class="fixed bottom-6 right-6 z-50">
+    <a href="/setup" class="flex items-center gap-2 px-5 py-3 bg-gold text-noir text-xs font-bold tracking-widest uppercase rounded-sm shadow-2xl hover:bg-gold-light transition-all duration-200">
+      <i class="ri-settings-3-line"></i> Setup Required
     </a>
-</div>
+  </div>
 <% } %>
 
-<%- include('./partials/footer') %>
+<%- include('./partials/footer-full') %>

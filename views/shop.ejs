@@ -1,189 +1,206 @@
 <%- include('./partials/header') %>
 
-<% if(success && success.length > 0){ %>
-<div class="fixed top-16 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-lg bg-green-500 text-white shadow-lg text-sm font-medium">
-    <%= success %>
-</div>
-<% } %>
-
-<!-- Delete Confirmation Modal -->
+<%# ── DELETE MODAL ── %>
 <div id="deleteModal" class="fixed inset-0 z-50 hidden items-center justify-center">
-    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="document.getElementById('deleteModal').classList.add('hidden'); document.getElementById('deleteModal').classList.remove('flex');"></div>
-    <div class="relative bg-white rounded-2xl shadow-2xl p-6 mx-4 w-full max-w-sm">
-        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-red-100 flex items-center justify-center">
-            <i class="ri-delete-bin-line text-3xl text-red-500"></i>
-        </div>
-        <h3 class="text-xl font-bold text-zinc-900 text-center mb-2">Delete Product?</h3>
-        <p class="text-zinc-500 text-center text-sm mb-6">
-            Are you sure you want to delete this product? This action cannot be undone.
-        </p>
-        <div class="flex gap-3">
-            <button onclick="document.getElementById('deleteModal').classList.add('hidden'); document.getElementById('deleteModal').classList.remove('flex');" 
-                    class="flex-1 py-3 px-4 border border-zinc-200 rounded-xl text-zinc-700 font-medium hover:bg-zinc-50 transition text-sm">
-                Cancel
-            </button>
-            <a id="confirmDeleteLink" href="#" 
-               class="flex-1 py-3 px-4 bg-red-500 hover:bg-red-600 rounded-xl text-white font-medium text-center transition text-sm flex items-center justify-center gap-2">
-                <i class="ri-delete-bin-line"></i>
-                Delete
-            </a>
-        </div>
+  <div class="absolute inset-0 bg-noir/80 backdrop-blur-sm"
+       onclick="document.getElementById('deleteModal').classList.add('hidden'); document.getElementById('deleteModal').classList.remove('flex');"></div>
+  <div class="relative bg-noir-card border border-noir-border rounded-md p-7 mx-4 w-full max-w-xs">
+    <div class="w-12 h-12 mx-auto mb-5 rounded-full bg-red-950/40 border border-red-900/30 flex items-center justify-center">
+      <i class="ri-delete-bin-line text-xl text-red-400"></i>
     </div>
+    <h3 class="font-display text-xl font-bold text-dim-100 text-center mb-2">Delete Product?</h3>
+    <p class="text-dim-400 text-xs text-center leading-relaxed mb-7">
+      This action cannot be undone. The product will be permanently removed.
+    </p>
+    <div class="flex gap-3">
+      <button onclick="document.getElementById('deleteModal').classList.add('hidden'); document.getElementById('deleteModal').classList.remove('flex');"
+        class="flex-1 py-2.5 px-4 border border-noir-border text-dim-400 hover:text-dim-100 hover:border-dim-400 text-xs font-medium tracking-wide uppercase rounded-sm transition-all duration-200">
+        Cancel
+      </button>
+      <a id="confirmDeleteLink" href="#"
+        class="flex-1 py-2.5 px-4 bg-red-900/40 hover:bg-red-900/60 border border-red-800/40 text-red-300 text-xs font-medium tracking-wide uppercase rounded-sm text-center transition-all duration-200 flex items-center justify-center gap-1.5">
+        <i class="ri-delete-bin-line text-sm"></i> Delete
+      </a>
+    </div>
+  </div>
 </div>
 
 <div class="flex min-h-screen">
-    <!-- Sidebar -->
-    <aside class="w-60 flex-shrink-0 border-r border-zinc-100 pt-10 px-6">
 
-        <!-- Search -->
-        <form action="/shop" method="get" class="mb-8">
-            <!-- preserve current filters -->
-            <input type="hidden" name="sortby" value="<%= sortby %>">
-            <input type="hidden" name="category" value="<%= category %>">
-            <div class="relative">
-                <i class="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-sm"></i>
-                <input type="text" name="search" value="<%= search %>" placeholder="Search products..."
-                       class="w-full pl-9 pr-3 py-2 border border-zinc-200 rounded-lg text-sm bg-white text-zinc-700 focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent">
-            </div>
-        </form>
+  <%# ── SIDEBAR ── %>
+  <aside class="w-56 flex-shrink-0 border-r border-noir-border pt-10 px-6 bg-noir">
 
-        <!-- Browse -->
-        <h4 class="text-xs font-semibold text-zinc-400 uppercase tracking-widest mb-4">Browse</h4>
-        <nav class="flex flex-col gap-2 text-sm mb-8">
-            <a class="transition <%= category === 'all' ? 'text-zinc-900 font-medium' : 'text-zinc-500 hover:text-zinc-900' %>" 
-               href="/shop?sortby=<%= sortby %>&search=<%= search %>&category=all">
-                All Products
-            </a>
-            <a class="transition <%= sortby === 'newest' && category === 'all' ? 'text-zinc-900 font-medium' : 'text-zinc-500 hover:text-zinc-900' %>" 
-               href="/shop?sortby=newest&search=<%= search %>&category=all">
-                New Arrivals
-            </a>
-            <a class="transition <%= category === 'discounted' ? 'text-zinc-900 font-medium' : 'text-zinc-500 hover:text-zinc-900' %>" 
-               href="/shop?sortby=<%= sortby %>&search=<%= search %>&category=discounted">
-                Discounted
-            </a>
-        </nav>
+    <%# Search %>
+    <form action="/shop" method="get" class="mb-8">
+      <input type="hidden" name="sortby" value="<%= sortby %>">
+      <input type="hidden" name="category" value="<%= category %>">
+      <div class="relative">
+        <i class="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-dim-400 text-sm"></i>
+        <input type="text" name="search" value="<%= search %>" placeholder="Search..."
+          class="w-full bg-noir-card border border-noir-border text-dim-200 placeholder-dim-400 text-xs pl-9 pr-3 py-2.5 rounded-sm focus:outline-none focus:border-gold/40 transition-colors duration-200">
+      </div>
+    </form>
 
-        <!-- Categories -->
-        <div class="pt-6 border-t border-zinc-100">
-            <h4 class="text-xs font-semibold text-zinc-400 uppercase tracking-widest mb-4">Category</h4>
-            <nav class="flex flex-col gap-2 text-sm">
-                <a class="transition <%= category === 'backpack' ? 'text-zinc-900 font-medium' : 'text-zinc-500 hover:text-zinc-900' %>"
-                   href="/shop?sortby=<%= sortby %>&search=<%= search %>&category=backpack">
-                    Backpacks
-                </a>
-                <a class="transition <%= category === 'tote' ? 'text-zinc-900 font-medium' : 'text-zinc-500 hover:text-zinc-900' %>"
-                   href="/shop?sortby=<%= sortby %>&search=<%= search %>&category=tote">
-                    Tote Bags
-                </a>
-                <a class="transition <%= category === 'handbag' ? 'text-zinc-900 font-medium' : 'text-zinc-500 hover:text-zinc-900' %>"
-                   href="/shop?sortby=<%= sortby %>&search=<%= search %>&category=handbag">
-                    Handbags
-                </a>
-                <a class="transition <%= category === 'clutch' ? 'text-zinc-900 font-medium' : 'text-zinc-500 hover:text-zinc-900' %>"
-                   href="/shop?sortby=<%= sortby %>&search=<%= search %>&category=clutch">
-                    Clutch
-                </a>
-                <a class="transition <%= category === 'duffle' ? 'text-zinc-900 font-medium' : 'text-zinc-500 hover:text-zinc-900' %>"
-                   href="/shop?sortby=<%= sortby %>&search=<%= search %>&category=duffle">
-                    Duffle Bags
-                </a>
-            </nav>
-        </div>
-
-        <!-- Sort -->
-        <div class="mt-8 pt-6 border-t border-zinc-100">
-            <h4 class="text-xs font-semibold text-zinc-400 uppercase tracking-widest mb-4">Sort By</h4>
-            <form action="/shop" method="get">
-                <input type="hidden" name="search" value="<%= search %>">
-                <input type="hidden" name="category" value="<%= category %>">
-                <select name="sortby" onchange="this.form.submit()"
-                        class="w-full border border-zinc-200 rounded-lg px-3 py-2 text-sm bg-white text-zinc-700">
-                    <option value="popular"    <%= sortby === 'popular' ? 'selected' : '' %>>Popular</option>
-                    <option value="newest"     <%= sortby === 'newest' ? 'selected' : '' %>>Newest</option>
-                    <option value="price_asc"  <%= sortby === 'price_asc' ? 'selected' : '' %>>Price: Low to High</option>
-                    <option value="price_desc" <%= sortby === 'price_desc' ? 'selected' : '' %>>Price: High to Low</option>
-                </select>
-            </form>
-        </div>
-
-        <!-- Clear Filters -->
-        <% if(search || category !== 'all' || sortby !== 'popular') { %>
-        <a href="/shop" class="mt-6 text-xs text-red-500 hover:text-red-700 transition flex items-center gap-1">
-            <i class="ri-close-line"></i> Clear all filters
+    <%# Browse %>
+    <div class="mb-7">
+      <h4 class="text-[9px] font-semibold text-dim-400 tracking-[0.18em] uppercase mb-4">Browse</h4>
+      <nav class="flex flex-col gap-1.5">
+        <a href="/shop?sortby=<%= sortby %>&search=<%= search %>&category=all"
+          class="text-xs py-1.5 transition-colors duration-200 <%= category === 'all' ? 'text-gold font-medium' : 'text-dim-400 hover:text-dim-200' %>">
+          All Products
         </a>
-        <% } %>
-    </aside>
+        <a href="/shop?sortby=newest&search=<%= search %>&category=all"
+          class="text-xs py-1.5 transition-colors duration-200 <%= sortby === 'newest' && category === 'all' ? 'text-gold font-medium' : 'text-dim-400 hover:text-dim-200' %>">
+          New Arrivals
+        </a>
+        <a href="/shop?sortby=<%= sortby %>&search=<%= search %>&category=discounted"
+          class="text-xs py-1.5 transition-colors duration-200 flex items-center gap-2 <%= category === 'discounted' ? 'text-gold font-medium' : 'text-dim-400 hover:text-dim-200' %>">
+          Discounted
+          <span class="text-[9px] bg-gold/10 text-gold border border-gold/20 px-1.5 py-0.5 rounded-sm">Sale</span>
+        </a>
+      </nav>
+    </div>
 
-    <!-- Products Grid -->
-    <main class="flex-1 px-10 py-10">
-        <div class="flex items-center justify-between mb-8">
-            <div>
-                <h1 class="text-2xl font-bold text-zinc-900">
-                    <% if(search) { %>
-                        Results for "<%= search %>"
-                    <% } else if(category === 'discounted') { %>
-                        Discounted Products
-                    <% } else if(category !== 'all') { %>
-                        <%= category.charAt(0).toUpperCase() + category.slice(1) %>s
-                    <% } else { %>
-                        All Products
-                    <% } %>
-                </h1>
-                <% if(search || category !== 'all') { %>
-                <p class="text-sm text-zinc-400 mt-1">
-                    <%= products.length %> <%= products.length === 1 ? 'product' : 'products' %> found
-                </p>
+    <%# Categories %>
+    <div class="pt-6 border-t border-noir-border mb-7">
+      <h4 class="text-[9px] font-semibold text-dim-400 tracking-[0.18em] uppercase mb-4">Category</h4>
+      <nav class="flex flex-col gap-1.5">
+        <% [['backpack','Backpacks'],['tote','Tote Bags'],['handbag','Handbags'],['clutch','Clutch'],['duffle','Duffle Bags']].forEach(([val, label]) => { %>
+          <a href="/shop?sortby=<%= sortby %>&search=<%= search %>&category=<%= val %>"
+            class="text-xs py-1.5 transition-colors duration-200 flex items-center justify-between group <%= category === val ? 'text-gold font-medium' : 'text-dim-400 hover:text-dim-200' %>">
+            <%= label %>
+            <% if(category === val) { %><span class="w-1 h-1 rounded-full bg-gold"></span><% } %>
+          </a>
+        <% }) %>
+      </nav>
+    </div>
+
+    <%# Sort %>
+    <div class="pt-6 border-t border-noir-border">
+      <h4 class="text-[9px] font-semibold text-dim-400 tracking-[0.18em] uppercase mb-4">Sort By</h4>
+      <form action="/shop" method="get">
+        <input type="hidden" name="search" value="<%= search %>">
+        <input type="hidden" name="category" value="<%= category %>">
+        <select name="sortby" onchange="this.form.submit()"
+          class="w-full bg-noir-card border border-noir-border text-dim-200 text-xs px-3 py-2.5 rounded-sm focus:outline-none focus:border-gold/40 transition-colors duration-200 cursor-pointer">
+          <option value="popular"    <%= sortby === 'popular'    ? 'selected' : '' %>>Popular</option>
+          <option value="newest"     <%= sortby === 'newest'     ? 'selected' : '' %>>Newest</option>
+          <option value="price_asc"  <%= sortby === 'price_asc'  ? 'selected' : '' %>>Price: Low to High</option>
+          <option value="price_desc" <%= sortby === 'price_desc' ? 'selected' : '' %>>Price: High to Low</option>
+        </select>
+      </form>
+    </div>
+
+    <%# Clear filters %>
+    <% if(search || category !== 'all' || sortby !== 'popular') { %>
+      <a href="/shop" class="mt-6 flex items-center gap-1.5 text-[10px] text-red-400/70 hover:text-red-400 transition-colors duration-200 tracking-wide">
+        <i class="ri-close-line text-sm"></i> Clear filters
+      </a>
+    <% } %>
+
+  </aside>
+
+  <%# ── MAIN CONTENT ── %>
+  <main class="flex-1 px-10 py-10 bg-noir">
+
+    <%# Header row %>
+    <div class="flex items-end justify-between mb-10">
+      <div>
+        <div class="flex items-center gap-3 mb-2">
+          <div class="w-5 h-px bg-gold"></div>
+          <span class="text-[9px] tracking-[0.2em] uppercase text-gold">
+            <% if(category !== 'all') { %><%= category %><% } else { %>Collection<% } %>
+          </span>
+        </div>
+        <h1 class="font-display font-bold text-dim-100 text-3xl">
+          <% if(search) { %>
+            Results for "<%= search %>"
+          <% } else if(category === 'discounted') { %>
+            Discounted
+          <% } else if(category !== 'all') { %>
+            <%= category.charAt(0).toUpperCase() + category.slice(1) %>s
+          <% } else { %>
+            All Products
+          <% } %>
+        </h1>
+        <% if(search || category !== 'all') { %>
+          <p class="text-xs text-dim-400 mt-1.5 tracking-wide">
+            <%= products.length %> <%= products.length === 1 ? 'product' : 'products' %> found
+          </p>
+        <% } %>
+      </div>
+      <span class="text-xs text-dim-400 tracking-wide"><%= products.length %> items</span>
+    </div>
+
+    <%# Empty state %>
+    <% if(products.length === 0) { %>
+      <div class="flex flex-col items-center justify-center h-64 text-dim-400">
+        <i class="ri-search-line text-4xl mb-4 text-dim-400/40"></i>
+        <p class="text-sm font-medium text-dim-300 mb-1">No products found</p>
+        <p class="text-xs text-dim-400">Try a different search or filter</p>
+        <a href="/shop" class="mt-5 text-xs text-gold hover:text-gold-light transition-colors duration-200 tracking-widest uppercase border-b border-gold/30 pb-px">
+          View all products →
+        </a>
+      </div>
+    <% } %>
+
+    <%# Product grid %>
+    <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">
+      <% products.forEach(function(product){ %>
+
+        <div class="group bg-noir-card border border-noir-border rounded-md overflow-hidden hover:border-gold/20 transition-all duration-300">
+
+          <%# Product image %>
+          <a href="/product/<%= product._id %>" class="block relative overflow-hidden" style="height: 220px; background-color: <%= product.bgcolor || '#111111' %>">
+            <img
+              class="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500 ease-out"
+              src="data:image/jpeg;base64,<%= product.image.toString('base64') %>"
+              alt="<%= product.name %>">
+            <% if(product.discount > 0) { %>
+              <span class="absolute top-3 left-3 text-[9px] font-bold tracking-[0.1em] uppercase bg-gold text-noir px-2 py-1 rounded-sm">
+                <%= product.discount %>% off
+              </span>
+            <% } %>
+          </a>
+
+          <%# Product info %>
+          <div class="px-4 py-4 flex items-start justify-between gap-3">
+            <div class="flex-1 min-w-0">
+              <h3 class="text-dim-200 text-sm font-medium truncate mb-1"><%= product.name %></h3>
+              <div class="flex items-center gap-2">
+                <% if(product.discount > 0) { %>
+                  <span class="text-xs text-dim-400 line-through">₹<%= product.price %></span>
+                  <span class="font-display font-bold text-gold text-base">₹<%= Math.round(product.price - (product.price * product.discount / 100)) %></span>
+                <% } else { %>
+                  <span class="font-display font-bold text-gold text-base">₹<%= product.price %></span>
                 <% } %>
+              </div>
             </div>
-            <span class="text-sm text-zinc-400"><%= products.length %> items</span>
+
+            <%# Actions %>
+            <div class="flex items-center gap-2 flex-shrink-0">
+              <a href="/addtocart/<%= product._id %>"
+                class="w-8 h-8 flex items-center justify-center border border-noir-border hover:border-gold/40 hover:bg-gold/5 text-dim-400 hover:text-gold rounded-sm transition-all duration-200"
+                title="Add to cart">
+                <i class="ri-shopping-bag-line text-sm"></i>
+              </a>
+              <% if(locals.loggedInUser && loggedInUser.role === 'admin') { %>
+                <button
+                  onclick="document.getElementById('deleteModal').classList.remove('hidden'); document.getElementById('deleteModal').classList.add('flex'); document.getElementById('confirmDeleteLink').href='/deleteproduct/<%= product._id %>';"
+                  class="w-8 h-8 flex items-center justify-center border border-noir-border hover:border-red-800/50 hover:bg-red-950/20 text-dim-400 hover:text-red-400 rounded-sm transition-all duration-200"
+                  title="Delete product">
+                  <i class="ri-delete-bin-line text-sm"></i>
+                </button>
+              <% } %>
+            </div>
+          </div>
+
         </div>
 
-        <% if(products.length === 0) { %>
-        <div class="flex flex-col items-center justify-center h-64 text-zinc-400">
-            <i class="ri-search-line text-5xl mb-4"></i>
-            <p class="text-sm mb-1">No products found</p>
-            <p class="text-xs text-zinc-300">Try a different search or filter</p>
-            <a href="/shop" class="mt-4 text-sm text-zinc-900 hover:underline">View all products</a>
-        </div>
-        <% } %>
+      <% }) %>
+    </div>
 
-        <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <% products.forEach(function(product){ %>
-            <div class="rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-zinc-100" style="background-color: <%= product.bgcolor || '#f4f4f5' %>">
-                <a href="/product/<%= product._id %>" class="w-full h-52 overflow-hidden block">
-                    <img class="h-full w-full object-cover hover:scale-105 transition-transform duration-300" src="data:image/jpeg;base64,<%= product.image.toString('base64') %>" alt="<%= product.name %>">
-                </a>
-                <div class="flex justify-between items-center px-4 py-4 rounded-b-2xl" style="background-color: <%= product.panelcolor || '#ffffff' %>; color: <%= product.textcolor || '#1a1a1a' %>">
-                    <div>
-                        <h3 class="font-semibold text-sm"><%= product.name %></h3>
-                        <div class="flex items-center gap-2 mt-0.5">
-                            <% if(product.discount > 0) { %>
-                            <span class="text-xs line-through opacity-50">&#8377;<%= product.price %></span>
-                            <span class="font-bold text-sm">&#8377;<%= Math.round(product.price - (product.price * product.discount / 100)) %></span>
-                            <span class="text-xs bg-green-100 text-green-700 px-1.5 py-0.5 rounded-full"><%= product.discount %>% off</span>
-                            <% } else { %>
-                            <span class="font-bold text-sm">&#8377;<%= product.price %></span>
-                            <% } %>
-                        </div>
-                    </div>
-                    
-                    <div class="flex items-center gap-2">
-                        <a href="/addtocart/<%= product._id %>" 
-                           class="w-9 h-9 flex items-center justify-center rounded-full bg-white shadow hover:scale-110 transition-transform">
-                            <i class="ri-add-line text-zinc-800"></i>
-                        </a>
-                        <button onclick="document.getElementById('deleteModal').classList.remove('hidden'); document.getElementById('deleteModal').classList.add('flex'); document.getElementById('confirmDeleteLink').href='/deleteproduct/<%= product._id %>';"
-                                class="w-9 h-9 flex items-center justify-center rounded-full bg-red-50 hover:bg-red-100 text-red-500 shadow transition-transform hover:scale-110"
-                                title="Delete Product">
-                            <i class="ri-delete-bin-line"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <% }) %>
-        </div>
-    </main>
+  </main>
 </div>
 
-<%- include('./partials/footer') %>
+<%- include('./partials/footer-minimal') %>
