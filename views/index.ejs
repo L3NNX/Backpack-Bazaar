@@ -2,49 +2,68 @@
 
 <%# ── HERO — full bleed, no box panels ── %>
 <section class="min-h-screen flex flex-col justify-center px-8 lg:px-20 pt-16 pb-20">
-  <div class="max-w-7xl mx-auto w-full flex flex-col lg:flex-row items-start lg:items-center gap-16">
+  <div class="max-w-6xl mx-auto w-full flex flex-col lg:flex-row items-start lg:items-center gap-16">
 
     <%# Left %>
-    <div class="flex-1">
-      <div class="flex items-center gap-3 mb-8">
-        <div class="w-8 h-px bg-gold"></div>
-        <span class="text-[10px] tracking-[0.28em] uppercase text-gold font-medium">New Collection 2025</span>
+   <div class="flex-1">
+
+  <div class="flex items-center gap-3 mb-6">
+    <div class="w-8 h-px bg-gold"></div>
+    <span class="text-[10px] tracking-[0.28em] uppercase text-gold font-medium">
+      New Collection 2025
+    </span>
+  </div>
+
+  <h1 class="font-display font-bold text-dim-100 leading-[1.05] mb-6"
+      style="font-size:clamp(44px,6vw,72px)">
+    Premium Bags for <br>Everyday
+    <span class="italic text-gold">Confidence.</span>
+  </h1>
+
+  <p class="text-dim-400 text-sm leading-relaxed max-w-md mb-8">
+    Designed for work, travel, and everything in between. Minimal, durable, and built to elevate your daily carry.
+  </p>
+
+  <div class="flex items-center gap-4 mb-12">
+    <a href="/shop"
+       class="px-8 py-3 bg-gold text-noir text-xs font-bold tracking-[0.12em] uppercase rounded-sm">
+      Shop Now
+    </a>
+
+    <a href="/auth"
+       class="px-8 py-3 border border-dim-500 text-dim-400 hover:text-dim-100 text-xs uppercase rounded-sm">
+      Explore
+    </a>
+  </div>
+
+  <div class="flex items-center gap-8 pt-6 border-t border-noir-border">
+    <div>
+      <div class="font-display text-2xl text-dim-100">
+        10K<span class="text-gold">+</span>
       </div>
-
-      <h1 class="font-display font-bold text-dim-100 leading-[0.92] mb-8" style="font-size:clamp(56px,9vw,110px)">
-        Carry<br>Your<br><em class="font-normal italic text-gold">Style.</em>
-      </h1>
-
-      <p class="text-dim-400 text-base leading-relaxed max-w-xs mb-10">
-        Premium bags crafted for the modern lifestyle. From work to weekend.
-      </p>
-
-      <div class="flex flex-wrap items-center gap-4 mb-16">
-        <a href="/shop" class="inline-flex items-center gap-2 px-8 py-3.5 bg-gold hover:bg-gold-light text-noir text-xs font-bold tracking-[0.12em] uppercase rounded-sm transition-all duration-200 hover:scale-[1.02]">
-          Shop Now
-        </a>
-        <a href="/auth" class="inline-flex items-center gap-2 px-8 py-3.5 text-dim-400 hover:text-dim-100 text-xs font-medium tracking-[0.1em] uppercase border border-dim-500 hover:border-dim-400 rounded-sm transition-all duration-200">
-          Explore
-        </a>
-      </div>
-
-      <div class="flex items-center gap-10 pt-8 border-t border-noir-border">
-        <div>
-          <div class="font-display font-bold text-dim-100 text-3xl">10K<span class="text-gold text-xl">+</span></div>
-          <div class="text-[9px] text-dim-400 tracking-[0.15em] uppercase mt-1">Customers</div>
-        </div>
-        <div class="w-px h-8 bg-noir-border"></div>
-        <div>
-          <div class="font-display font-bold text-dim-100 text-3xl">500<span class="text-gold text-xl">+</span></div>
-          <div class="text-[9px] text-dim-400 tracking-[0.15em] uppercase mt-1">Products</div>
-        </div>
-        <div class="w-px h-8 bg-noir-border"></div>
-        <div>
-          <div class="font-display font-bold text-dim-100 text-3xl">4.9<span class="text-gold text-xl">★</span></div>
-          <div class="text-[9px] text-dim-400 tracking-[0.15em] uppercase mt-1">Rating</div>
-        </div>
-      </div>
+      <div class="text-[9px] text-dim-400 uppercase mt-1">Customers</div>
     </div>
+
+    <div class="w-px h-6 bg-noir-border"></div>
+
+    <div>
+      <div class="font-display text-2xl text-dim-100">
+        500<span class="text-gold">+</span>
+      </div>
+      <div class="text-[9px] text-dim-400 uppercase mt-1">Products</div>
+    </div>
+
+    <div class="w-px h-6 bg-noir-border"></div>
+
+    <div>
+      <div class="font-display text-2xl text-dim-100">
+        4.9<span class="text-gold">★</span>
+      </div>
+      <div class="text-[9px] text-dim-400 uppercase mt-1">Rating</div>
+    </div>
+  </div>
+
+</div>
 
     <%# Right — floating card, no background panel %>
     <div class="hidden lg:flex flex-col items-end gap-4 flex-shrink-0">
