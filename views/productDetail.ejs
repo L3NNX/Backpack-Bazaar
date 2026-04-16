@@ -1,106 +1,140 @@
 <%- include('./partials/header') %>
 
-<div class="max-w-5xl mx-auto px-6 py-10 min-h-screen">
+<div class="max-w-6xl mx-auto px-8 py-14 min-h-screen bg-noir">
 
-    <!-- Back -->
-    <a href="/shop" class="inline-flex items-center gap-1.5 text-sm text-zinc-400 hover:text-zinc-900 transition mb-8">
-        <i class="ri-arrow-left-s-line text-lg"></i> Back
-    </a>
+  <!-- Back -->
+  <a href="/shop"
+    class="inline-flex items-center gap-2 text-[10px] tracking-[0.12em] uppercase text-dim-400 hover:text-gold mb-10">
+    ← Back
+  </a>
 
-    <div class="flex flex-col lg:flex-row gap-10">
+  <div class="flex flex-col lg:flex-row gap-14">
 
-        <!-- Image -->
-        <div class="flex-1">
-            <div class="rounded-2xl overflow-hidden relative" style="background-color: <%= product.bgcolor || '#f4f4f5' %>">
-                <% if(product.discount > 0) { %>
-                <span class="absolute top-4 left-4 px-2.5 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">
-                    <%= product.discount %>% off
-                </span>
-                <% } %>
-                <img src="data:image/jpeg;base64,<%= product.image.toString('base64') %>" 
-                     alt="<%= product.name %>"
-                     class="w-full h-[480px] object-cover">
-            </div>
-        </div>
+    <!-- IMAGE -->
+    <div class="flex-1">
+      <div class="relative border border-noir-border rounded-md overflow-hidden"
+           style="background-color:<%= product.bgcolor || '#111111' %>">
 
-        <!-- Info -->
-        <div class="flex-1 lg:max-w-sm">
+        <% if(product.discount > 0) { %>
+        <span class="absolute top-4 left-4 text-[9px] tracking-[0.12em] uppercase bg-gold text-noir px-2 py-1 rounded-sm">
+          <%= product.discount %>% off
+        </span>
+        <% } %>
 
-            <% if(product.category) { %>
-            <span class="text-[11px] uppercase tracking-widest text-zinc-400 font-medium"><%= product.category %></span>
-            <% } %>
-
-            <h1 class="text-2xl font-bold text-zinc-900 mt-1 mb-4"><%= product.name %></h1>
-
-            <!-- Price -->
-            <div class="flex items-baseline gap-2 mb-6">
-                <% if(product.discount > 0) { %>
-                    <span class="text-2xl font-bold text-zinc-900">
-                        ₹<%= Math.round(product.price - (product.price * product.discount / 100)) %>
-                    </span>
-                    <span class="text-sm text-zinc-400 line-through">₹<%= product.price %></span>
-                <% } else { %>
-                    <span class="text-2xl font-bold text-zinc-900">₹<%= product.price %></span>
-                <% } %>
-            </div>
-
-            <!-- Description -->
-            <% if(product.description) { %>
-            <p class="text-sm text-zinc-500 leading-relaxed mb-8"><%= product.description %></p>
-            <% } %>
-
-            <!-- Actions -->
-            <a href="/addtocart/<%= product._id %>" 
-               class="w-full py-3.5 bg-zinc-900 hover:bg-zinc-700 text-white font-medium rounded-full transition text-sm inline-flex items-center justify-center gap-2 mb-3">
-                <i class="ri-shopping-bag-line"></i>
-                Add to Cart
-            </a>
-
-            <a href="/wishlist/toggle/<%= product._id %>"
-               class="w-full py-3.5 border border-zinc-200 hover:border-zinc-300 text-zinc-700 font-medium rounded-full transition text-sm inline-flex items-center justify-center gap-2">
-                <i class="ri-heart-line"></i>
-                Save to Wishlist
-            </a>
-
-            <!-- Info -->
-            <div class="mt-8 pt-6 border-t border-zinc-100 space-y-4">
-                <div class="flex items-center gap-3 text-sm text-zinc-500">
-                    <i class="ri-truck-line text-base text-zinc-400"></i>
-                    Free delivery above ₹999
-                </div>
-                <div class="flex items-center gap-3 text-sm text-zinc-500">
-                    <i class="ri-loop-left-line text-base text-zinc-400"></i>
-                    30-day easy returns
-                </div>
-                <div class="flex items-center gap-3 text-sm text-zinc-500">
-                    <i class="ri-shield-check-line text-base text-zinc-400"></i>
-                    Secure payment
-                </div>
-            </div>
-        </div>
+        <img src="data:image/jpeg;base64,<%= product.image.toString('base64') %>"
+             class="w-full h-[480px] object-cover">
+      </div>
     </div>
 
-    <!-- Related -->
-    <% if(related && related.length > 0) { %>
-    <div class="mt-20 pt-10 border-t border-zinc-100">
-        <h2 class="text-lg font-bold text-zinc-900 mb-6">You may also like</h2>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-5">
-            <% related.forEach(function(item){ %>
-            <a href="/product/<%= item._id %>" class="group">
-                <div class="rounded-2xl overflow-hidden border border-zinc-100 mb-3">
-                    <img src="data:image/jpeg;base64,<%= item.image.toString('base64') %>" 
-                         alt="<%= item.name %>"
-                         class="w-full h-44 object-cover group-hover:scale-105 transition-transform duration-300">
-                </div>
-                <h3 class="font-medium text-sm text-zinc-900 truncate"><%= item.name %></h3>
-                <span class="text-sm font-bold text-zinc-900">
-                    ₹<%= Math.round(item.price - (item.price * (item.discount || 0) / 100)) %>
-                </span>
-            </a>
-            <% }) %>
+    <!-- INFO -->
+    <div class="flex-1 lg:max-w-sm">
+
+      <% if(product.category) { %>
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-5 h-px bg-gold"></div>
+        <span class="text-[9px] tracking-[0.22em] uppercase text-gold">
+          <%= product.category %>
+        </span>
+      </div>
+      <% } %>
+
+      <h1 class="font-display text-4xl text-dim-100 mb-6 leading-[0.95]">
+        <%= product.name %>
+      </h1>
+
+      <!-- PRICE -->
+      <div class="flex items-center gap-3 mb-8">
+        <% if(product.discount > 0) { %>
+          <span class="font-display text-2xl text-gold font-bold">
+            ₹<%= Math.round(product.price - (product.price * product.discount / 100)) %>
+          </span>
+          <span class="text-sm text-dim-400 line-through">
+            ₹<%= product.price %>
+          </span>
+        <% } else { %>
+          <span class="font-display text-2xl text-gold font-bold">
+            ₹<%= product.price %>
+          </span>
+        <% } %>
+      </div>
+
+      <!-- DESCRIPTION -->
+      <% if(product.description) { %>
+      <p class="text-sm text-dim-400 leading-relaxed mb-10">
+        <%= product.description %>
+      </p>
+      <% } %>
+
+      <!-- ACTIONS -->
+      <div class="flex flex-col gap-3 mb-10">
+        <a href="/addtocart/<%= product._id %>"
+           class="w-full py-3.5 bg-gold text-noir text-xs font-bold tracking-[0.12em] uppercase rounded-sm flex items-center justify-center gap-2">
+          Add to Cart
+        </a>
+
+        <a href="/wishlist/toggle/<%= product._id %>"
+           class="w-full py-3.5 border border-noir-border text-dim-400 hover:text-dim-100 text-xs font-medium tracking-[0.1em] uppercase rounded-sm flex items-center justify-center gap-2">
+          Save to Wishlist
+        </a>
+      </div>
+
+      <!-- INFO -->
+      <div class="pt-6 border-t border-noir-border space-y-4 text-xs text-dim-400">
+        <div class="flex items-center gap-3">
+          <i class="ri-truck-line text-gold"></i>
+          Free delivery above ₹999
         </div>
+        <div class="flex items-center gap-3">
+          <i class="ri-loop-left-line text-gold"></i>
+          30-day returns
+        </div>
+        <div class="flex items-center gap-3">
+          <i class="ri-shield-check-line text-gold"></i>
+          Secure payment
+        </div>
+      </div>
+
     </div>
-    <% } %>
+  </div>
+
+  <!-- RELATED -->
+  <% if(related && related.length > 0) { %>
+  <div class="mt-24 pt-12 border-t border-noir-border">
+
+    <div class="flex items-center gap-3 mb-8">
+      <div class="w-5 h-px bg-gold"></div>
+      <span class="text-[10px] tracking-[0.22em] uppercase text-gold">
+        Recommendations
+      </span>
+    </div>
+
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+
+      <% related.forEach(function(item){ %>
+      <a href="/product/<%= item._id %>"
+         class="group border border-noir-border rounded-md overflow-hidden hover:border-gold/30 transition">
+
+        <div class="h-44 bg-noir-input overflow-hidden">
+          <img src="data:image/jpeg;base64,<%= item.image.toString('base64') %>"
+               class="w-full h-full object-cover group-hover:scale-[1.04] transition duration-500">
+        </div>
+
+        <div class="p-4">
+          <h3 class="text-dim-200 text-sm font-medium truncate mb-1">
+            <%= item.name %>
+          </h3>
+          <span class="font-display text-gold text-sm font-bold">
+            ₹<%= Math.round(item.price - (item.price * (item.discount || 0) / 100)) %>
+          </span>
+        </div>
+
+      </a>
+      <% }) %>
+
+    </div>
+  </div>
+  <% } %>
+
 </div>
 
-<%- include('./partials/footer') %>
+<%- include('./partials/footer-full') %>

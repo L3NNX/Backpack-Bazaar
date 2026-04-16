@@ -1,287 +1,206 @@
 <%- include('./partials/header') %>
 
-    <% if(success && success.length> 0){ %>
-        <div
-            class="fixed top-16 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-lg bg-green-500 text-white shadow-lg text-sm font-medium">
-            <%= success %>
+<% if(success && success.length> 0){ %>
+<div class="fixed top-16 left-1/2 -translate-x-1/2 z-50 px-5 py-3 bg-gold text-noir text-xs font-bold tracking-widest uppercase rounded-sm">
+    <%= success %>
+</div>
+<% } %>
+
+<!-- Delete Modal -->
+<div id="deleteModal" class="fixed inset-0 z-50 hidden items-center justify-center">
+  <div class="absolute inset-0 bg-noir/80 backdrop-blur-sm"
+    onclick="document.getElementById('deleteModal').classList.add('hidden'); document.getElementById('deleteModal').classList.remove('flex');"></div>
+
+  <div class="relative bg-noir-card border border-noir-border rounded-md p-6 w-full max-w-sm mx-4">
+    <h3 class="font-display text-lg text-dim-100 text-center mb-2">Delete Product?</h3>
+    <p class="text-dim-400 text-xs text-center mb-6">This action cannot be undone.</p>
+
+    <div class="flex gap-3">
+      <button onclick="document.getElementById('deleteModal').classList.add('hidden'); document.getElementById('deleteModal').classList.remove('flex');"
+        class="flex-1 py-2.5 border border-noir-border text-dim-400 hover:text-dim-100 text-xs uppercase">
+        Cancel
+      </button>
+      <button id="confirmDeleteBtn"
+        class="flex-1 py-2.5 bg-red-900/40 border border-red-800/40 text-red-300 text-xs uppercase flex items-center justify-center gap-2">
+        Delete
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="flex min-h-screen bg-noir">
+
+  <!-- SIDEBAR -->
+  <aside class="w-56 flex-shrink-0 border-r border-noir-border pt-10 px-6">
+    <h4 class="text-[9px] font-semibold text-dim-400 tracking-[0.2em] uppercase mb-6">Admin</h4>
+
+    <nav class="flex flex-col gap-1">
+      <a href="/owners/admin"
+        class="flex items-center gap-2.5 text-xs py-2.5 px-3 rounded-sm text-dim-400 hover:text-dim-200 hover:bg-noir-card">
+        <i class="ri-add-circle-line text-sm"></i>
+        Create Product
+      </a>
+
+      <a href="/owners/products"
+        class="flex items-center gap-2.5 text-xs py-2.5 px-3 rounded-sm bg-gold/10 text-gold border border-gold/20">
+        <i class="ri-box-3-line text-sm"></i>
+        All Products
+      </a>
+
+      <a href="/owners/users"
+        class="flex items-center gap-2.5 text-xs py-2.5 px-3 rounded-sm text-dim-400 hover:text-dim-200 hover:bg-noir-card">
+        <i class="ri-team-line text-sm"></i>
+        Manage Users
+      </a>
+    </nav>
+
+    <!-- STATS -->
+    <div class="mt-8 pt-8 border-t border-noir-border">
+      <h4 class="text-[9px] font-semibold text-dim-400 tracking-[0.2em] uppercase mb-4">Stats</h4>
+
+      <div class="space-y-3 text-xs text-dim-400">
+        <div class="flex justify-between">
+          <span>Total Products</span>
+          <span class="text-dim-100 font-medium"><%= products.length %></span>
         </div>
-        <% } %>
+        <div class="flex justify-between">
+          <span>Discounted</span>
+          <span class="text-dim-100 font-medium"><%= products.filter(p=>p.discount>0).length %></span>
+        </div>
+      </div>
+    </div>
+  </aside>
 
-            <!-- Delete Confirmation Modal -->
-            <div id="deleteModal" class="fixed inset-0 z-50 hidden items-center justify-center">
-                <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"
-                    onclick="document.getElementById('deleteModal').classList.add('hidden'); document.getElementById('deleteModal').classList.remove('flex');">
+  <!-- MAIN -->
+  <main class="flex-1 px-12 py-12">
+
+    <div class="flex items-end justify-between mb-10">
+      <div>
+        <div class="flex items-center gap-3 mb-2">
+          <div class="w-5 h-px bg-gold"></div>
+          <span class="text-[9px] tracking-[0.2em] uppercase text-gold">Admin</span>
+        </div>
+        <h1 class="font-display font-bold text-dim-100 text-3xl">All Products</h1>
+      </div>
+
+      <a href="/owners/admin"
+        class="px-6 py-3 bg-gold text-noir text-xs font-bold tracking-[0.12em] uppercase rounded-sm">
+        Add Product
+      </a>
+    </div>
+
+    <% if(products.length===0) { %>
+    <div class="flex flex-col items-center justify-center h-64 text-dim-400">
+      <p class="text-sm mb-4">No products yet</p>
+      <a href="/owners/admin"
+        class="px-6 py-3 bg-gold text-noir text-xs uppercase tracking-widest rounded-sm">
+        Create Product
+      </a>
+    </div>
+    <% } else { %>
+
+    <div class="border border-noir-border rounded-md overflow-hidden">
+      <table class="w-full text-sm">
+
+        <thead>
+          <tr class="border-b border-noir-border text-[10px] text-dim-400 uppercase tracking-[0.12em]">
+            <th class="px-6 py-4 text-left">Product</th>
+            <th class="px-6 py-4 text-left">Price</th>
+            <th class="px-6 py-4 text-left">Discount</th>
+            <th class="px-6 py-4 text-left">Final</th>
+            <th class="px-6 py-4 text-left">Colors</th>
+            <th class="px-6 py-4 text-right">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% products.forEach(function(product){ %>
+
+          <tr class="border-b border-noir-border hover:bg-noir-card transition"
+              id="product-row-<%= product._id %>">
+
+            <td class="px-6 py-4">
+              <div class="flex items-center gap-4">
+                <div class="w-14 h-14 rounded-sm overflow-hidden border border-noir-border">
+                  <img class="w-full h-full object-cover"
+                    src="data:image/jpeg;base64,<%= product.image.toString('base64') %>">
                 </div>
-                <div class="relative bg-white rounded-2xl shadow-2xl p-6 mx-4 w-full max-w-sm">
-                    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-red-100 flex items-center justify-center">
-                        <i class="ri-delete-bin-line text-3xl text-red-500"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-zinc-900 text-center mb-2">Delete Product?</h3>
-                    <p class="text-zinc-500 text-center text-sm mb-6">
-                        Are you sure you want to delete this product? This action cannot be undone.
-                    </p>
-                    <div class="flex gap-3">
-                        <button
-                            onclick="document.getElementById('deleteModal').classList.add('hidden'); document.getElementById('deleteModal').classList.remove('flex');"
-                            class="flex-1 py-3 px-4 border border-zinc-200 rounded-xl text-zinc-700 font-medium hover:bg-zinc-50 transition text-sm">
-                            Cancel
-                        </button>
-                        <button id="confirmDeleteBtn"
-                            class="flex-1 py-3 px-4 bg-red-500 hover:bg-red-600 rounded-xl text-white font-medium text-center transition text-sm flex items-center justify-center gap-2">
-                            <i class="ri-delete-bin-line"></i>
-                            Delete
-                        </button>
-                    </div>
+                <div>
+                  <h3 class="text-dim-200 text-sm font-medium"><%= product.name %></h3>
+                  <p class="text-[10px] text-dim-500 mt-1">ID: <%= product._id.toString().slice(-6) %></p>
                 </div>
-            </div>
+              </div>
+            </td>
 
-            <div class="flex min-h-screen">
-                <!-- Sidebar -->
-                <aside class="w-60 flex-shrink-0 border-r border-zinc-100 pt-10 px-6">
-                    <h4 class="text-xs font-semibold text-zinc-400 uppercase tracking-widest mb-4">Admin</h4>
+            <td class="px-6 py-4 text-dim-400">₹<%= product.price %></td>
 
-                    <nav class="flex flex-col gap-2 text-sm text-zinc-600">
+            <td class="px-6 py-4">
+              <% if(product.discount>0){ %>
+                <span class="text-gold text-xs"><%= product.discount %>%</span>
+              <% } else { %>
+                <span class="text-dim-500 text-xs">—</span>
+              <% } %>
+            </td>
 
-                        <a class="flex items-center gap-2 hover:text-zinc-900 transition" href="/owners/admin">
-                            <i class="ri-add-circle-line text-base"></i>
-                            <span>Create Product</span>
-                        </a>
+            <td class="px-6 py-4 text-dim-100 font-medium">
+              ₹<%= product.discount>0 ? Math.round(product.price-(product.price*product.discount/100)) : product.price %>
+            </td>
 
-                        <a class="flex items-center gap-2 hover:text-zinc-900 transition font-medium text-blue-600"
-                            href="/owners/products">
-                            <i class="ri-box-3-line text-base"></i>
-                            <span>All Products</span>
-                        </a>
+            <td class="px-6 py-4">
+              <div class="flex gap-1.5">
+                <div class="w-5 h-5 border border-noir-border" style="background:<%= product.bgcolor||'#111' %>"></div>
+                <div class="w-5 h-5 border border-noir-border" style="background:<%= product.panelcolor||'#0d0d0d' %>"></div>
+                <div class="w-5 h-5 border border-noir-border" style="background:<%= product.textcolor||'#ccc' %>"></div>
+              </div>
+            </td>
 
-                        <a class="flex items-center gap-2 hover:text-zinc-900 transition" href="/owners/users">
-                            <i class="ri-group-line text-base"></i>
-                            <span>Manage Users</span>
-                        </a>
+            <td class="px-6 py-4 text-right">
+              <div class="flex justify-end gap-2">
+                <a href="/products/edit/<%= product._id %>"
+                  class="w-8 h-8 flex items-center justify-center border border-noir-border text-dim-400 hover:text-gold">
+                  ✎
+                </a>
+                <button onclick="openDeleteModal('<%= product._id %>')"
+                  class="w-8 h-8 flex items-center justify-center border border-noir-border text-dim-400 hover:text-red-400">
+                  ✕
+                </button>
+              </div>
+            </td>
 
-                    </nav>
+          </tr>
 
-                    <!-- Quick Stats -->
-                    <div class="mt-8 pt-8 border-t border-zinc-100">
-                        <h4 class="text-xs font-semibold text-zinc-400 uppercase tracking-widest mb-4">
-                            Quick Stats
-                        </h4>
+          <% }) %>
+        </tbody>
 
-                        <div class="space-y-3">
+      </table>
+    </div>
 
-                            <div class="flex items-center justify-between text-sm">
-                                <div class="flex items-center gap-2 text-zinc-500">
-                                    <i class="ri-box-1-line"></i>
-                                    <span>Total Products</span>
-                                </div>
-                                <span class="font-semibold text-zinc-900">
-                                    <%= products.length %>
-                                </span>
-                            </div>
+    <% } %>
+  </main>
+</div>
 
-                            <div class="flex items-center justify-between text-sm">
-                                <div class="flex items-center gap-2 text-zinc-500">
-                                    <i class="ri-price-tag-3-line"></i>
-                                    <span>Discounted</span>
-                                </div>
-                                <span class="font-semibold text-zinc-900">
-                                    <%= products.filter(p=> p.discount > 0).length %>
-                                </span>
-                            </div>
+<script>
+let deleteProductId = null;
 
-                        </div>
-                    </div>
-                </aside>
-                <!-- Products Listing -->
-                <main class="flex-1 px-10 py-10">
-                    <div class="flex items-center justify-between mb-8">
-                        <div>
-                            <h1 class="text-2xl font-bold text-zinc-900">All Products</h1>
-                            <p class="text-sm text-zinc-400 mt-1">Manage your product catalog</p>
-                        </div>
-                        <a href="/owners/admin"
-                            class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition text-sm flex items-center gap-2">
-                            <i class="ri-add-line"></i>
-                            Add Product
-                        </a>
-                    </div>
+function openDeleteModal(id){
+  deleteProductId = id;
+  document.getElementById('deleteModal').classList.remove('hidden');
+  document.getElementById('deleteModal').classList.add('flex');
+}
 
-                    <% if(products.length===0) { %>
-                        <div class="flex flex-col items-center justify-center h-64 text-zinc-400">
-                            <i class="ri-box-3-line text-5xl mb-4"></i>
-                            <p class="text-sm mb-4">No products yet. Start by creating one!</p>
-                            <a href="/owners/admin"
-                                class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition text-sm">
-                                Create Product
-                            </a>
-                        </div>
-                        <% } else { %>
+document.getElementById('confirmDeleteBtn').onclick = async ()=>{
+  if(!deleteProductId) return;
 
-                            <!-- Table View -->
-                            <div class="bg-white rounded-2xl border border-zinc-100 overflow-hidden shadow-sm">
-                                <table class="w-full">
-                                    <thead>
-                                        <tr class="border-b border-zinc-100 bg-zinc-50/50">
-                                            <th
-                                                class="text-left text-xs font-semibold text-zinc-400 uppercase tracking-widest px-6 py-4">
-                                                Product</th>
-                                            <th
-                                                class="text-left text-xs font-semibold text-zinc-400 uppercase tracking-widest px-6 py-4">
-                                                Price</th>
-                                            <th
-                                                class="text-left text-xs font-semibold text-zinc-400 uppercase tracking-widest px-6 py-4">
-                                                Discount</th>
-                                            <th
-                                                class="text-left text-xs font-semibold text-zinc-400 uppercase tracking-widest px-6 py-4">
-                                                Final Price</th>
-                                            <th
-                                                class="text-left text-xs font-semibold text-zinc-400 uppercase tracking-widest px-6 py-4">
-                                                Colors</th>
-                                            <th
-                                                class="text-right text-xs font-semibold text-zinc-400 uppercase tracking-widest px-6 py-4">
-                                                Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <% products.forEach(function(product){ %>
-                                            <tr class="border-b border-zinc-50 hover:bg-zinc-50/50 transition"
-                                                id="product-row-<%= product._id %>">
-                                                <!-- Product Info -->
-                                                <td class="px-6 py-4">
-                                                    <div class="flex items-center gap-4">
-                                                        <div
-                                                            class="w-14 h-14 rounded-xl overflow-hidden flex-shrink-0 border border-zinc-100">
-                                                            <img class="h-full w-full object-cover"
-                                                                src="data:image/jpeg;base64,<%= product.image.toString('base64') %>"
-                                                                alt="<%= product.name %>">
-                                                        </div>
-                                                        <div>
-                                                            <h3 class="font-semibold text-sm text-zinc-900">
-                                                                <%= product.name %>
-                                                            </h3>
-                                                            <p class="text-xs text-zinc-400 mt-0.5">ID: <%=
-                                                                    product._id.toString().slice(-6) %>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </td>
+  const res = await fetch(`/products/delete/${deleteProductId}`,{method:'DELETE'});
+  const data = await res.json();
 
-                                                <!-- Price -->
-                                                <td class="px-6 py-4">
-                                                    <span class="text-sm font-medium text-zinc-700">&#8377;<%=
-                                                            product.price %></span>
-                                                </td>
+  if(data.success){
+    document.getElementById(`product-row-${deleteProductId}`)?.remove();
+  }
 
-                                                <!-- Discount -->
-                                                <td class="px-6 py-4">
-                                                    <% if(product.discount> 0) { %>
-                                                        <span
-                                                            class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full font-medium">
-                                                            <%= product.discount %>% off
-                                                        </span>
-                                                        <% } else { %>
-                                                            <span class="text-xs text-zinc-400">—</span>
-                                                            <% } %>
-                                                </td>
+  document.getElementById('deleteModal').classList.add('hidden');
+  document.getElementById('deleteModal').classList.remove('flex');
+};
+</script>
 
-                                                <!-- Final Price -->
-                                                <td class="px-6 py-4">
-                                                    <% if(product.discount> 0) { %>
-                                                        <span class="text-sm font-bold text-zinc-900">&#8377;<%=
-                                                                Math.round(product.price - (product.price *
-                                                                product.discount / 100)) %></span>
-                                                        <% } else { %>
-                                                            <span class="text-sm font-bold text-zinc-900">&#8377;<%=
-                                                                    product.price %></span>
-                                                            <% } %>
-                                                </td>
-
-                                                <!-- Colors -->
-                                                <td class="px-6 py-4">
-                                                    <div class="flex items-center gap-1.5">
-                                                        <div class="w-6 h-6 rounded-full border border-zinc-200 shadow-sm"
-                                                            style="background-color: <%= product.bgcolor || '#f4f4f5' %>"
-                                                            title="BG: <%= product.bgcolor || '#f4f4f5' %>"></div>
-                                                        <div class="w-6 h-6 rounded-full border border-zinc-200 shadow-sm"
-                                                            style="background-color: <%= product.panelcolor || '#ffffff' %>"
-                                                            title="Panel: <%= product.panelcolor || '#ffffff' %>"></div>
-                                                        <div class="w-6 h-6 rounded-full border border-zinc-200 shadow-sm"
-                                                            style="background-color: <%= product.textcolor || '#1a1a1a' %>"
-                                                            title="Text: <%= product.textcolor || '#1a1a1a' %>"></div>
-                                                    </div>
-                                                </td>
-
-                                                <!-- Actions -->
-                                                <td class="px-6 py-4 text-right">
-                                                    <div class="flex items-center justify-end gap-2">
-
-                                                        <!-- Edit -->
-                                                        <a href="/products/edit/<%= product._id %>"
-                                                            class="w-9 h-9 inline-flex items-center justify-center rounded-full bg-zinc-100 hover:bg-zinc-200 text-zinc-600 transition-transform hover:scale-110"
-                                                            title="Edit Product">
-                                                            <i class="ri-pencil-line"></i>
-                                                        </a>
-
-                                                        <!-- Delete -->
-                                                        <button onclick="openDeleteModal('<%= product._id %>')"
-                                                            class="w-9 h-9 inline-flex items-center justify-center rounded-full bg-red-50 hover:bg-red-100 text-red-500 transition-transform hover:scale-110"
-                                                            title="Delete Product">
-                                                            <i class="ri-delete-bin-line"></i>
-                                                        </button>
-
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <% }) %>
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            <% } %>
-                </main>
-            </div>
-
-            <script>
-                let deleteProductId = null;
-
-                function openDeleteModal(productId) {
-                    deleteProductId = productId;
-                    document.getElementById('deleteModal').classList.remove('hidden');
-                    document.getElementById('deleteModal').classList.add('flex');
-                }
-
-                document.getElementById('confirmDeleteBtn').addEventListener('click', async function () {
-                    if (!deleteProductId) return;
-
-                    try {
-                        const res = await fetch(`/products/delete/${deleteProductId}`, {
-                            method: 'DELETE',
-                        });
-                        const data = await res.json();
-
-                        if (data.success) {
-                            // Remove the row from the table
-                            const row = document.getElementById(`product-row-${deleteProductId}`);
-                            if (row) row.remove();
-
-                            // Close modal
-                            document.getElementById('deleteModal').classList.add('hidden');
-                            document.getElementById('deleteModal').classList.remove('flex');
-
-                            // Show success flash
-                            const flash = document.createElement('div');
-                            flash.className = 'fixed top-16 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-lg bg-green-500 text-white shadow-lg text-sm font-medium';
-                            flash.textContent = 'Product deleted successfully!';
-                            document.body.appendChild(flash);
-                            setTimeout(() => flash.remove(), 3000);
-                        } else {
-                            alert('Failed to delete product.');
-                        }
-                    } catch (err) {
-                        alert('Error deleting product.');
-                    }
-
-                    deleteProductId = null;
-                });
-            </script>
-
-            <%- include('./partials/footer-full') %>
+<%- include('./partials/footer-full') %>
