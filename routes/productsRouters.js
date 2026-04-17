@@ -42,7 +42,7 @@ router.get("/edit/:productid", isAdmin, async (req, res) => {
 // Update Product
 router.post("/edit/:productid", isAdmin, upload.single("image"), async (req, res) => {
     try {
-        let { name, price, discount, bgcolor, panelcolor, textcolor } = req.body;
+        let { name, price, discount, bgcolor, panelcolor, textcolor,category } = req.body;
 
         let updateData = {
             name,
