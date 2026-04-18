@@ -282,5 +282,28 @@ router.post('/profile/password', isLoggedin, async (req, res) => {
     }
 });
 
+const staticPages = {
+  faq: "FAQs",
+  shipping: "Shipping Info",
+  returns: "Returns",
+  "size-guide": "Size Guide",
+  contact: "Contact Us",
+  privacy: "Privacy Policy",
+  terms: "Terms of Service"
+};
+
+//new route for static pages
+router.get("/:page", (req, res, next) => {
+  const page = req.params.page;
+
+  if (staticPages[page]) {
+    return res.render(`static/${page}`, {
+      title: staticPages[page]
+    });
+  }
+
+  next(); // important → don’t break other routes
+});
+
 module.exports = router;
 
