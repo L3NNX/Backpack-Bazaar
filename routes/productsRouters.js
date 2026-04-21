@@ -4,30 +4,35 @@ const upload= require("../config/multerConfig")
 const productModel = require("../models/productmodel")
 const isAdmin = require("../middleware/isAdmin"); 
 
-router.post("/create",isAdmin,upload.single("image"),async function (req,res){
-    try {
-        let {name,price,discount,bgcolor,textcolor,panelcolor} = req.body;
-        
-        let product = await productModel.create({
-            image: req.file.buffer,
-            name,
-            price,
-            discount,
-            bgcolor,
-            textcolor,
-            panelcolor,
-            category
-        })
-        // console.log(product)
-        req.flash("success","product created successfully")
-        res.redirect("/owners/admin")
-        
-    } catch (error) {
-        res.send(error)
+router.post("/create", isAdmin, upload.single("image"), async (req, res) => {
+  try {
+    let { name, price, discount, bgcolor, textcolor, panelcolor, category } = req.body;
+
+    if (!req.file) {
+      req.flash("error", "Image is required");
+      return res.redirect("/owners/admin");
     }
 
-}); 
+    await productModel.create({
+      image: req.file.buffer,
+      name,
+      price,
+      discount,
+      bgcolor,
+      textcolor,
+      panelcolor,
+      category
+    });
 
+    req.flash("success", "Product created successfully");
+    res.redirect("/owners/products");
+
+  } catch (error) {
+    console.error(error);
+    req.flash("error", "Failed to create product");
+    res.redirect("/owners/admin");
+  }
+});
 // Get Edit Product Page
 router.get("/edit/:productid", isAdmin, async (req, res) => {
     try {
