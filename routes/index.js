@@ -3,6 +3,8 @@ const isLoggedin = require("../middleware/isLoggedIn");
 const router= express.Router();
 const productModel = require("../models/productmodel")
 const userModel = require("../models/usermodel")
+const orderModel = require("../models/ordermodel");
+const isAdmin = require("../middleware/isAdmin");
 const bcrypt = require("bcryptjs");
 const { generateToken } = require("../utils/generateToken");
 
@@ -229,6 +231,87 @@ router.get("/logout", isLoggedin, function (req, res) {
     res.cookie("token", "");
     res.redirect("/");
 });
+
+// ── CHECKOUT → CREATE ORDER ──
+router.post('/checkout', isLoggedin, async (req, res) => {
+    try {
+        let user = await userModel.findOne({ email: req.user.email }).populate("cart");
+ 
+        if (!user.cart || user.cart.length === 0) {
+            req.flash("error", "Your cart is empty.");
+            return res.redirect("/cart");
+        }
+ 
+        let items = user.cart.map(product => ({
+            product: product._id,
+            name: product.name,
+            price: Math.round(product.price - (product.price * (product.discount || 0) / 100)),
+            image: product.image
+        }));
+ 
+        let total = items.reduce((sum, item) => sum + item.price, 0);
+ 
+        await orderModel.create({
+            user: user._id,
+            items,
+            total,
+            status: 'pending',
+            address: req.body.address || ''
+        });
+ 
+        user.cart = [];
+        await user.save();
+ 
+        req.flash("success", "Order placed successfully!");
+        res.redirect("/orders");
+ 
+    } catch (err) {
+        console.error("Checkout error:", err.message);
+        req.flash("error", "Checkout failed. Please try again.");
+        res.redirect("/cart");
+    }
+});
+ 
+// ── ORDER HISTORY (user) ──
+router.get('/orders', isLoggedin, async (req, res) => {
+    try {
+        let orders = await orderModel
+            .find({ user: req.user._id })
+            .sort({ createdAt: -1 });
+        res.render('orders', { orders });
+    } catch (err) {
+        req.flash("error", "Could not load orders.");
+        res.redirect("/shop");
+    }
+});
+ 
+// ── ADMIN: ALL ORDERS ──
+router.get('/owners/orders', isAdmin, async (req, res) => {
+    try {
+        let orders = await orderModel
+            .find()
+            .populate('user', 'fullname email')
+            .sort({ createdAt: -1 });
+        res.render('adminOrders', { orders });
+    } catch (err) {
+        req.flash("error", "Could not load orders.");
+        res.redirect("/owners/admin");
+    }
+});
+ 
+// ── ADMIN: UPDATE ORDER STATUS ──
+router.post('/owners/orders/:orderid/status', isAdmin, async (req, res) => {
+    try {
+        let { status } = req.body;
+        await orderModel.findByIdAndUpdate(req.params.orderid, { status });
+        req.flash("success", "Order status updated!");
+        res.redirect("/owners/orders");
+    } catch (err) {
+        req.flash("error", "Could not update order.");
+        res.redirect("/owners/orders");
+    }
+});
+
 
 // Profile Page
 router.get('/profile', isLoggedin, async (req, res) => {

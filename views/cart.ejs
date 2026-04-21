@@ -1,152 +1,167 @@
 <%- include('./partials/header') %>
 
-<% if(success && success.length > 0){ %>
-<div class="fixed top-16 left-1/2 -translate-x-1/2 z-50 px-5 py-3 bg-gold text-noir text-xs font-bold tracking-widest uppercase rounded-sm">
-    <%= success %>
-</div>
-<% } %>
-
-<!-- Delete Modal -->
-<div id="deleteModal" class="fixed inset-0 z-50 hidden items-center justify-center">
-  <div class="absolute inset-0 bg-noir/80 backdrop-blur-sm"
-    onclick="this.parentElement.classList.add('hidden'); this.parentElement.classList.remove('flex');"></div>
-
-  <div class="relative bg-noir-card border border-noir-border rounded-md p-6 w-full max-w-sm mx-4">
-    <h3 class="font-display text-lg text-dim-100 mb-2 text-center">Remove Item?</h3>
-    <p class="text-dim-400 text-xs text-center mb-6">This item will be removed from your cart.</p>
-    <div class="flex gap-3">
-      <button onclick="document.getElementById('deleteModal').classList.add('hidden'); document.getElementById('deleteModal').classList.remove('flex');"
-        class="flex-1 py-2.5 border border-noir-border text-dim-400 hover:text-dim-100 text-xs uppercase">
-        Cancel
-      </button>
-      <a id="confirmDeleteLink" href="#"
-        class="flex-1 py-2.5 bg-red-900/40 border border-red-800/40 text-red-300 text-xs uppercase text-center">
-        Remove
-      </a>
+  <% if(success && success.length> 0){ %>
+    <div
+      class="fixed top-16 left-1/2 -translate-x-1/2 z-50 px-5 py-3 bg-gold text-noir text-xs font-bold tracking-widest uppercase rounded-sm">
+      <%= success %>
     </div>
-  </div>
-</div>
-
-<!-- Clear Cart Modal -->
-<div id="clearCartModal" class="fixed inset-0 z-50 hidden items-center justify-center">
-  <div class="absolute inset-0 bg-noir/80 backdrop-blur-sm"
-    onclick="this.parentElement.classList.add('hidden'); this.parentElement.classList.remove('flex');"></div>
-
-  <div class="relative bg-noir-card border border-noir-border rounded-md p-6 w-full max-w-sm mx-4">
-    <h3 class="font-display text-lg text-dim-100 mb-2 text-center">Clear Cart?</h3>
-    <p class="text-dim-400 text-xs text-center mb-6">All items will be removed.</p>
-    <div class="flex gap-3">
-      <button onclick="document.getElementById('clearCartModal').classList.add('hidden'); document.getElementById('clearCartModal').classList.remove('flex');"
-        class="flex-1 py-2.5 border border-noir-border text-dim-400 hover:text-dim-100 text-xs uppercase">
-        Cancel
-      </button>
-      <a href="/clearcart"
-        class="flex-1 py-2.5 bg-gold text-noir text-xs uppercase text-center">
-        Clear
-      </a>
-    </div>
-  </div>
-</div>
-
-<div class="bg-noir min-h-screen pt-10 pb-20">
-
-  <!-- Header -->
-  <div class="max-w-6xl mx-auto px-6 flex items-center justify-between mb-10">
-    <h1 class="font-display text-4xl text-dim-100">Your Cart</h1>
-    <% if(products && products.length > 0) { %>
-    <button onclick="document.getElementById('clearCartModal').classList.remove('hidden'); document.getElementById('clearCartModal').classList.add('flex');"
-      class="text-[10px] text-dim-400 hover:text-gold uppercase tracking-[0.2em]">
-      Clear Cart
-    </button>
     <% } %>
-  </div>
 
-  <% if(!products || products.length === 0) { %>
-  <div class="flex flex-col items-center justify-center h-64 text-dim-400">
-    <p class="text-sm mb-4">Your cart is empty</p>
-    <a href="/shop"
-      class="px-6 py-3 bg-gold text-noir text-xs uppercase tracking-widest rounded-sm">
-      Continue Shopping
-    </a>
-  </div>
-  <% } else { %>
+      <!-- Delete Modal -->
+      <div id="deleteModal" class="fixed inset-0 z-50 hidden items-center justify-center">
+        <div class="absolute inset-0 bg-noir/80 backdrop-blur-sm"
+          onclick="this.parentElement.classList.add('hidden'); this.parentElement.classList.remove('flex');"></div>
 
-  <!-- MAIN GRID (FIXED STRUCTURE) -->
-  <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-10">
+        <div class="relative bg-noir-card border border-noir-border rounded-md p-6 w-full max-w-sm mx-4">
+          <h3 class="font-display text-lg text-dim-100 mb-2 text-center">Remove Item?</h3>
+          <p class="text-dim-400 text-xs text-center mb-6">This item will be removed from your cart.</p>
+          <div class="flex gap-3">
+            <button
+              onclick="document.getElementById('deleteModal').classList.add('hidden'); document.getElementById('deleteModal').classList.remove('flex');"
+              class="flex-1 py-2.5 border border-noir-border text-dim-400 hover:text-dim-100 text-xs uppercase">
+              Cancel
+            </button>
+            <a id="confirmDeleteLink" href="#"
+              class="flex-1 py-2.5 bg-red-900/40 border border-red-800/40 text-red-300 text-xs uppercase text-center">
+              Remove
+            </a>
+          </div>
+        </div>
+      </div>
 
-    <!-- CART ITEMS -->
-    <div class="space-y-3">
-      <% products.forEach(function(product){ %>
+      <!-- Clear Cart Modal -->
+      <div id="clearCartModal" class="fixed inset-0 z-50 hidden items-center justify-center">
+        <div class="absolute inset-0 bg-noir/80 backdrop-blur-sm"
+          onclick="this.parentElement.classList.add('hidden'); this.parentElement.classList.remove('flex');"></div>
 
-      <div class="flex items-center gap-4 bg-noir-card border border-noir-border rounded-md px-4 py-3">
+        <div class="relative bg-noir-card border border-noir-border rounded-md p-6 w-full max-w-sm mx-4">
+          <h3 class="font-display text-lg text-dim-100 mb-2 text-center">Clear Cart?</h3>
+          <p class="text-dim-400 text-xs text-center mb-6">All items will be removed.</p>
+          <div class="flex gap-3">
+            <button
+              onclick="document.getElementById('clearCartModal').classList.add('hidden'); document.getElementById('clearCartModal').classList.remove('flex');"
+              class="flex-1 py-2.5 border border-noir-border text-dim-400 hover:text-dim-100 text-xs uppercase">
+              Cancel
+            </button>
+            <a href="/clearcart" class="flex-1 py-2.5 bg-gold text-noir text-xs uppercase text-center">
+              Clear
+            </a>
+          </div>
+        </div>
+      </div>
 
-        <div class="w-20 h-20 flex-shrink-0 overflow-hidden rounded-sm"
-          style="background-color: <%= product.bgcolor || '#111111' %>">
-          <img class="w-full h-full object-cover"
-            src="data:image/jpeg;base64,<%= product.image.toString('base64') %>">
+      <div class="bg-noir min-h-screen pt-10 pb-20">
+
+        <!-- Header -->
+        <div class="max-w-6xl mx-auto px-6 flex items-center justify-between mb-10">
+          <h1 class="font-display text-4xl text-dim-100">Your Cart</h1>
+          <% if(products && products.length> 0) { %>
+            <button
+              onclick="document.getElementById('clearCartModal').classList.remove('hidden'); document.getElementById('clearCartModal').classList.add('flex');"
+              class="text-[10px] text-dim-400 hover:text-gold uppercase tracking-[0.2em]">
+              Clear Cart
+            </button>
+            <% } %>
         </div>
 
-        <div class="flex-1 min-w-0">
-          <h3 class="text-dim-200 text-sm font-medium truncate"><%= product.name %></h3>
-
-          <% if(product.discount > 0) { %>
-          <div class="flex items-center gap-2 mt-1">
-            <span class="text-xs text-dim-400 line-through">₹<%= product.price %></span>
-            <span class="text-gold font-display text-sm">
-              ₹<%= Math.round(product.price - (product.price * product.discount / 100)) %>
-            </span>
+        <% if(!products || products.length===0) { %>
+          <div class="flex flex-col items-center justify-center h-64 text-dim-400">
+            <p class="text-sm mb-4">Your cart is empty</p>
+            <a href="/shop" class="px-6 py-3 bg-gold text-noir text-xs uppercase tracking-widest rounded-sm">
+              Continue Shopping
+            </a>
           </div>
           <% } else { %>
-          <span class="text-gold font-display text-sm">₹<%= product.price %></span>
-          <% } %>
-        </div>
 
-        <button onclick="document.getElementById('deleteModal').classList.remove('hidden'); document.getElementById('deleteModal').classList.add('flex'); document.getElementById('confirmDeleteLink').href='/removefromcart/<%= product._id %>';"
-          class="w-8 h-8 flex items-center justify-center border border-noir-border text-dim-400 hover:text-red-400 rounded-sm">
-          ✕
-        </button>
+            <!-- MAIN GRID (FIXED STRUCTURE) -->
+            <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-10">
 
+              <!-- CART ITEMS -->
+              <div class="space-y-3">
+                <% products.forEach(function(product){ %>
+
+                  <div class="flex items-center gap-4 bg-noir-card border border-noir-border rounded-md px-4 py-3">
+
+                    <div class="w-20 h-20 flex-shrink-0 overflow-hidden rounded-sm"
+                      style="background-color: <%= product.bgcolor || '#111111' %>">
+                      <img class="w-full h-full object-cover"
+                        src="data:image/jpeg;base64,<%= product.image.toString('base64') %>">
+                    </div>
+
+                    <div class="flex-1 min-w-0">
+                      <h3 class="text-dim-200 text-sm font-medium truncate">
+                        <%= product.name %>
+                      </h3>
+
+                      <% if(product.discount> 0) { %>
+                        <div class="flex items-center gap-2 mt-1">
+                          <span class="text-xs text-dim-400 line-through">₹<%= product.price %></span>
+                          <span class="text-gold font-display text-sm">
+                            ₹<%= Math.round(product.price - (product.price * product.discount / 100)) %>
+                          </span>
+                        </div>
+                        <% } else { %>
+                          <span class="text-gold font-display text-sm">₹<%= product.price %></span>
+                          <% } %>
+                    </div>
+
+                    <button
+                      onclick="document.getElementById('deleteModal').classList.remove('hidden'); document.getElementById('deleteModal').classList.add('flex'); document.getElementById('confirmDeleteLink').href='/removefromcart/<%= product._id %>';"
+                      class="w-8 h-8 flex items-center justify-center border border-noir-border text-dim-400 hover:text-red-400 rounded-sm">
+                      ✕
+                    </button>
+
+                  </div>
+
+                  <% }) %>
+              </div>
+
+              <!-- SUMMARY -->
+              <div>
+                <div class="bg-noir-card border border-noir-border rounded-md p-6 sticky top-28">
+
+                  <h2 class="font-display text-dim-100 text-xl mb-6">Summary</h2>
+
+                  <div class="space-y-3 text-xs text-dim-400">
+                    <div class="flex justify-between">
+                      <span>Items</span>
+                      <span>₹<%= bill %></span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span>Shipping</span>
+                      <span class="text-gold">Free</span>
+                    </div>
+                    <div class="border-t border-noir-border pt-3 flex justify-between text-dim-100 font-bold">
+                      <span>Total</span>
+                      <span>₹<%= bill %></span>
+                    </div>
+                  </div>
+
+                  <form action="/checkout" method="POST" class="mt-6">
+                    <label class="block text-[10px] tracking-[0.12em] uppercase text-dim-400 mb-2">
+                      Shipping Address
+                    </label>
+                    <textarea name="address" required
+                      class="w-full bg-noir-card border border-noir-border text-dim-200 text-sm px-4 py-3 rounded-sm focus:outline-none focus:border-gold/40 transition-colors duration-200 mb-5"
+                      placeholder="Enter your shipping address"></textarea>
+
+                    <button type="submit"
+                      class="w-full py-3.5 bg-gold hover:bg-gold-light text-noir text-xs font-bold tracking-[0.12em] uppercase rounded-sm transition-all duration-200 hover:scale-[1.01]">
+                      Proceed to Checkout
+                    </button>
+                  </form>
+
+                  <a href="/shop"
+                    class="block mt-4 text-center text-xs text-dim-400 hover:text-gold uppercase tracking-widest">
+                    Continue Shopping
+                  </a>
+
+                </div>
+              </div>
+
+            </div>
+
+            <% } %>
       </div>
 
-      <% }) %>
-    </div>
-
-    <!-- SUMMARY -->
-    <div>
-      <div class="bg-noir-card border border-noir-border rounded-md p-6 sticky top-28">
-
-        <h2 class="font-display text-dim-100 text-xl mb-6">Summary</h2>
-
-        <div class="space-y-3 text-xs text-dim-400">
-          <div class="flex justify-between">
-            <span>Items</span>
-            <span>₹<%= bill %></span>
-          </div>
-          <div class="flex justify-between">
-            <span>Shipping</span>
-            <span class="text-gold">Free</span>
-          </div>
-          <div class="border-t border-noir-border pt-3 flex justify-between text-dim-100 font-bold">
-            <span>Total</span>
-            <span>₹<%= bill %></span>
-          </div>
-        </div>
-
-        <button class="w-full mt-6 py-3 bg-gold text-noir text-xs uppercase tracking-widest rounded-sm">
-          Checkout
-        </button>
-
-        <a href="/shop"
-          class="block mt-4 text-center text-xs text-dim-400 hover:text-gold uppercase tracking-widest">
-          Continue Shopping
-        </a>
-
-      </div>
-    </div>
-
-  </div>
-
-  <% } %>
-</div>
-
-<%- include('./partials/footer-full') %>
+      <%- include('./partials/footer-full') %>
