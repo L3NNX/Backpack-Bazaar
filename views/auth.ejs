@@ -145,6 +145,7 @@
     document.getElementById('loginTab').classList.remove('text-dim-400');
     document.getElementById('signupTab').classList.remove('bg-noir-card','text-dim-100');
     document.getElementById('signupTab').classList.add('text-dim-400');
+      window.location.hash = "#login";
   }
 
   function showSignup() {
@@ -156,11 +157,20 @@
     document.getElementById('signupTab').classList.remove('text-dim-400');
     document.getElementById('loginTab').classList.remove('bg-noir-card','text-dim-100');
     document.getElementById('loginTab').classList.add('text-dim-400');
+    window.location.hash = "#signup";
+  }
+  
+  function handleHash() {
+    if (window.location.hash === "#signup") {
+      showSignup();
+    } else {
+      showLogin();
+    }
   }
 
-  window.onload = function() {
-    if (window.location.hash === '#signup') showSignup();
-  }
+  
+  window.onload = handleHash;
+  window.onhashchange = handleHash;
 </script>
 
 <%- include('./partials/footer-minimal') %>
