@@ -84,6 +84,9 @@
           <a href="/cart" class="nav-link hover:text-dim-100 transition-colors duration-200 flex items-center gap-1.5 <% if(locals.currentPage === 'cart') { %>active text-dim-100<% } %>">
             <i class="ri-shopping-bag-line"></i> Cart
           </a>
+          <a href="/orders" class="nav-link hover:text-dim-100 transition-colors duration-200 flex items-center gap-1.5 <% if(locals.currentPage === 'orders') { %>active text-dim-100<% } %>">
+            <i class="ri-receipt-line"></i> Orders
+          </a>
           <% if(loggedInUser.role === 'admin') { %>
             <a href="/owners/admin" class="nav-link hover:text-dim-100 transition-colors duration-200 flex items-center gap-1.5 <% if(locals.currentPage === 'admin') { %>active text-dim-100<% } %>">
               <i class="ri-shield-keyhole-line text-gold"></i>
