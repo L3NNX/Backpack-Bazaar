@@ -1,0 +1,138 @@
+<%- include('./partials/header') %>
+
+<div class="max-w-4xl mx-auto px-8 lg:px-10 py-16 min-h-screen">
+
+  <%# ── PAGE HEADER ── %>
+  <div class="mb-12">
+    <a href="/shop" class="inline-flex items-center gap-2 text-[10px] tracking-[0.12em] uppercase text-dim-400 hover:text-gold transition-colors duration-200 mb-8 block">
+      <i class="ri-arrow-left-line text-sm"></i> Back to Shop
+    </a>
+    <div class="flex items-center gap-3 mb-3">
+      <div class="w-5 h-px bg-gold"></div>
+      <span class="text-[9px] tracking-[0.22em] uppercase text-gold">Account</span>
+    </div>
+    <h1 class="font-display font-bold text-dim-100 text-4xl">Your Orders</h1>
+    <p class="text-dim-400 text-sm mt-2"><%= orders.length %> <%= orders.length === 1 ? 'order' : 'orders' %> placed</p>
+  </div>
+
+  <%# ── EMPTY STATE ── %>
+  <% if(!orders || orders.length === 0) { %>
+    <div class="flex flex-col items-center justify-center py-32 text-center">
+      <div class="w-16 h-16 border border-noir-border rounded-sm flex items-center justify-center mb-6">
+        <i class="ri-shopping-bag-line text-2xl text-dim-400/40"></i>
+      </div>
+      <p class="text-dim-300 text-sm font-medium mb-2">No orders yet</p>
+      <p class="text-dim-400 text-xs mb-8">Your orders will appear here once you place one.</p>
+      <a href="/shop" class="inline-flex items-center gap-2 px-8 py-3.5 bg-gold hover:bg-gold-light text-noir text-xs font-bold tracking-[0.12em] uppercase rounded-sm transition-all duration-200">
+        Start Shopping
+      </a>
+    </div>
+
+  <% } else { %>
+
+    <div class="space-y-4">
+      <% orders.forEach(function(order) { %>
+
+        <div class="bg-noir-card border border-noir-border rounded-md overflow-hidden hover:border-gold/20 transition-colors duration-300">
+
+          <%# ── ORDER HEADER ── %>
+          <div class="px-6 py-4 border-b border-noir-border flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-center gap-6">
+
+              <%# Order ID %>
+              <div>
+                <div class="text-[9px] text-dim-400 tracking-[0.12em] uppercase mb-1">Order ID</div>
+                <div class="text-xs text-dim-200 font-mono">#<%= order._id.toString().slice(-8).toUpperCase() %></div>
+              </div>
+
+              <%# Date %>
+              <div>
+                <div class="text-[9px] text-dim-400 tracking-[0.12em] uppercase mb-1">Placed on</div>
+                <div class="text-xs text-dim-200">
+                  <%= new Date(order.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) %>
+                </div>
+              </div>
+
+              <%# Total %>
+              <div>
+                <div class="text-[9px] text-dim-400 tracking-[0.12em] uppercase mb-1">Total</div>
+                <div class="font-display text-gold text-sm font-bold">₹<%= order.total %></div>
+              </div>
+
+            </div>
+
+            <%# Status badge %>
+            <div>
+              <%
+                const statusMap = {
+                  pending:   { label: 'Pending',   classes: 'bg-amber-900/30 text-amber-300 border-amber-700/30' },
+                  confirmed: { label: 'Confirmed', classes: 'bg-blue-900/30 text-blue-300 border-blue-700/30' },
+                  shipped:   { label: 'Shipped',   classes: 'bg-purple-900/30 text-purple-300 border-purple-700/30' },
+                  delivered: { label: 'Delivered', classes: 'bg-green-900/30 text-green-300 border-green-700/30' },
+                  cancelled: { label: 'Cancelled', classes: 'bg-red-900/30 text-red-300 border-red-700/30' }
+                };
+                const s = statusMap[order.status] || statusMap.pending;
+              %>
+              <span class="inline-flex items-center gap-1.5 text-[10px] font-medium tracking-[0.1em] uppercase px-3 py-1.5 rounded-sm border <%= s.classes %>">
+                <span class="w-1.5 h-1.5 rounded-full bg-current"></span>
+                <%= s.label %>
+              </span>
+            </div>
+          </div>
+
+          <%# ── ORDER ITEMS ── %>
+          <div class="px-6 py-4">
+            <div class="space-y-3">
+              <% order.items.forEach(function(item) { %>
+                <div class="flex items-center gap-4">
+
+                  <%# Item image snapshot %>
+                  <div class="w-14 h-14 flex-shrink-0 rounded-sm overflow-hidden bg-noir-input border border-noir-border">
+                    <% if(item.image) { %>
+                      <img class="w-full h-full object-cover"
+                           src="data:image/webp;base64,<%= item.image.toString('base64') %>"
+                           alt="<%= item.name %>">
+                    <% } else { %>
+                      <div class="w-full h-full flex items-center justify-center">
+                        <i class="ri-shopping-bag-line text-dim-400/30 text-lg"></i>
+                      </div>
+                    <% } %>
+                  </div>
+
+                  <div class="flex-1 min-w-0">
+                    <div class="text-dim-200 text-sm font-medium truncate"><%= item.name %></div>
+                    <div class="text-dim-400 text-xs mt-0.5">Price paid</div>
+                  </div>
+
+                  <div class="font-display text-dim-100 text-sm font-bold flex-shrink-0">₹<%= item.price %></div>
+                </div>
+              <% }) %>
+            </div>
+
+            <%# ── ORDER FOOTER ── %>
+            <div class="mt-5 pt-4 border-t border-noir-border flex items-center justify-between">
+              <div class="text-[10px] text-dim-400 tracking-wide">
+                <% if(order.address) { %>
+                  <i class="ri-map-pin-line text-gold/60 mr-1"></i><%= order.address %>
+                <% } else { %>
+                  <span class="text-dim-500">No address provided</span>
+                <% } %>
+              </div>
+              <div class="flex items-center gap-2 text-xs text-dim-400">
+                <span><%= order.items.length %> <%= order.items.length === 1 ? 'item' : 'items' %></span>
+                <span class="text-dim-500">·</span>
+                <span class="font-display text-gold font-bold">₹<%= order.total %></span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      <% }) %>
+    </div>
+
+  <% } %>
+
+</div>
+
+<%- include('./partials/footer-minimal') %>
